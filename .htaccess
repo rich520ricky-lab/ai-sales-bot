@@ -1,0 +1,11 @@
+RewriteEngine On
+DirectoryIndex index.php
+
+<FilesMatch "\.(sql|md)$">
+  Require all denied
+</FilesMatch>
+
+# Protect sensitive files
+<FilesMatch "^(includes|sql)/">
+  Require all denied
+</FilesMatch>

@@ -2,83 +2,126 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>頂級域名出售 — Premium Domains For Sale</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Premium Domains Portfolio — 精選網域出售</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans TC',sans-serif;background:#080c1a;color:#e0e0e0;}
-.hero{min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px 20px;background:linear-gradient(135deg,#080c1a,#121a3a,#0a1a2a);}
-.hero h1{font-size:56px;font-weight:900;color:#fff;margin-bottom:15px;letter-spacing:-2px;}
-.hero h1 span{background:linear-gradient(135deg,#00ff88,#00b4ff,#b450ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.hero p{font-size:18px;color:#667788;max-width:600px;margin:0 auto 30px;line-height:1.7;}
-.hero .sub{font-size:14px;color:#445566;}
-.section{padding:60px 20px;max-width:1200px;margin:0 auto;}
-.section-title{text-align:center;margin-bottom:40px;}
-.section-title h2{font-size:32px;font-weight:700;color:#fff;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
-.card{background:linear-gradient(145deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:30px 25px;text-align:center;transition:all 0.3s;cursor:pointer;text-decoration:none;display:block;color:inherit;}
-.card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.4);}
-.card .domain{font-size:22px;font-weight:900;margin-bottom:8px;letter-spacing:-1px;}
-.card .tagline{font-size:13px;color:#667788;margin-bottom:15px;}
-.card .price{font-size:16px;font-weight:700;padding:6px 20px;border-radius:20px;display:inline-block;}
-.card .cta{font-size:13px;color:#8899aa;margin-top:15px;}
-footer{text-align:center;padding:40px;color:#445566;font-size:13px;border-top:1px solid rgba(255,255,255,0.04);}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;line-height:1.6;min-height:100vh}
+.hero{padding:100px 20px;text-align:center;background:linear-gradient(135deg,#0a0a0f 0%,#1a1a2e 50%,#0a0a0f 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(99,102,241,0.06) 0%,transparent 50%);animation:pls 8s ease-in-out infinite}
+@keyframes pls{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+.hero h1{font-size:3.2em;font-weight:800;background:linear-gradient(135deg,#fff,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+.hero p{font-size:1.1em;color:#94a3b8;max-width:600px;margin:0 auto 24px;line-height:1.6}
+.hero .badge{display:inline-block;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25);color:#ef4444;padding:6px 18px;border-radius:20px;font-size:0.85em;font-weight:600;margin-bottom:20px}
+.hero .email{color:#818cf8;font-size:1em}
+.hero .email a{color:#818cf8;text-decoration:none;border-bottom:1px dashed}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px}
+.card{background:linear-gradient(145deg,#1a1a2e,#12121a);border:1px solid #2a2a3e;border-radius:16px;overflow:hidden;transition:all 0.3s;cursor:pointer;text-decoration:none;color:inherit;display:block}
+.card:hover{transform:translateY(-4px);border-color:#818cf8;box-shadow:0 8px 32px rgba(99,102,241,0.12)}
+.card .banner{height:180px;position:relative;overflow:hidden}
+.card .banner img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
+.card:hover .banner img{transform:scale(1.05)}
+.card .banner .overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,15,0.92) 0%,transparent 50%)}
+.card .banner .sale{position:absolute;top:12px;right:12px;background:rgba(239,68,68,0.9);color:#fff;padding:5px 12px;border-radius:20px;font-size:0.75em;font-weight:700;letter-spacing:0.3px}
+.card .content{padding:20px}
+.card .name{font-size:1.6em;font-weight:700;margin-bottom:4px}
+.card .tags{color:#818cf8;font-size:0.8em;margin-bottom:8px;letter-spacing:0.5px}
+.card .desc{color:#94a3b8;font-size:0.9em;line-height:1.5;margin-bottom:12px}
+.card .stat-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.card .stat-row span{background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.15);padding:4px 10px;border-radius:6px;font-size:0.8em;color:#818cf8}
+.card .price{font-size:1.4em;font-weight:700;color:#34d399;margin-bottom:12px}
+.card .btn{display:inline-block;padding:8px 20px;border-radius:6px;font-weight:600;font-size:0.85em;text-decoration:none;transition:all 0.2s}
+.card .btn-primary{background:#818cf8;color:#fff;margin-right:8px}
+.card .btn-primary:hover{background:#6366f1}
+.card .btn-outline{border:1px solid #2a2a3e;color:#94a3b8}
+.card .btn-outline:hover{border-color:#818cf8;color:#fff}
+.footer{text-align:center;padding:40px;border-top:1px solid #1a1a2e;color:#666;font-size:0.9em}
+.footer a{color:#818cf8;text-decoration:none}
+.footer .big-email{font-size:1.2em;margin-bottom:8px}
+@media(max-width:768px){.hero h1{font-size:2em}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<section class="hero">
-<div>
-<h1>頂級域名 <span>出售中</span></h1>
-<p>五個台灣頂級 .com.tw 域名，每個都代表一個完整的商業概念。點擊進入各域名的專屬展示頁面。</p>
-<div class="sub">聯絡：superpay.vip@gmail.com · 主旨請註明「域名購買諮詢」</div>
+<div class="hero">
+  <div class="badge">🔴 五個高價值域名 立即出售中</div>
+  <h1>精選 優質網域 出售</h1>
+  <p>五個 premium .com.tw 域名，每個都擁有完整的品牌形象網站、真實業績數據與商業模式。<br>立即擁有，接手營運！</p>
+  <div class="email">📧 聯絡購買：<a href="mailto:superpay.vip@gmail.com?subject=域名購買諮詢">superpay.vip@gmail.com</a></div>
 </div>
-</section>
 
-<section class="section">
-<div class="section-title"><h2>精選域名</h2></div>
-<div class="grid">
-<a href="market/index.html" class="card" style="border-top:3px solid #00ff88;">
-<div class="domain" style="color:#00ff88">market.com.tw</div>
-<div class="tagline">AI 智慧電商平台</div>
-<div class="price" style="background:#00ff8822;color:#00ff88;">NT$ 280萬</div>
-<div class="cta">查看完整展示 →</div>
-</a>
-<a href="now/index.html" class="card" style="border-top:3px solid #b450ff;">
-<div class="domain" style="color:#b450ff">now.com.tw</div>
-<div class="tagline">即時任務服務平台</div>
-<div class="price" style="background:#b450ff22;color:#b450ff;">NT$ 180萬</div>
-<div class="cta">查看完整展示 →</div>
-</a>
-<a href="sweet/index.html" class="card" style="border-top:3px solid #ff96b4;">
-<div class="domain" style="color:#ff96b4">sweet.com.tw</div>
-<div class="tagline">甜點禮品電商</div>
-<div class="price" style="background:#ff96b422;color:#ff96b4;">NT$ 120萬</div>
-<div class="cta">查看完整展示 →</div>
-</a>
-<a href="iloveyou/index.html" class="card" style="border-top:3px solid #ff5078;">
-<div class="domain" style="color:#ff5078">iloveyou.com.tw</div>
-<div class="tagline">情感告白服務</div>
-<div class="price" style="background:#ff507822;color:#ff5078;">NT$ 98萬</div>
-<div class="cta">查看完整展示 →</div>
-</a>
-<a href="100safe/index.html" class="card" style="border-top:3px solid #00c8ff;">
-<div class="domain" style="color:#00c8ff">100safe.com</div>
-<div class="tagline">交易安全平台</div>
-<div class="price" style="background:#00c8ff22;color:#00c8ff;">NT$ 220萬</div>
-<div class="cta">查看完整展示 →</div>
-</a>
+<div class="container">
+  <div class="grid">
+    <a href="market/" class="card">
+      <div class="banner"><img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=600" alt="market.com.tw"><div class="overlay"></div><div class="sale">🔴 出售中</div></div>
+      <div class="content">
+        <div class="name" style="color:#00b894">market.com.tw</div>
+        <div class="tags">電子商務 ｜ 市集平台</div>
+        <div class="desc">「Market」市場、市集，是電商平台、線上交易所、市集的頂級品牌域名。直覺性極強，一看就懂的商業域名。</div>
+        <div class="stat-row"><span>GMV NT$ 12.5億</span><span>商家1,800+</span><span>月營收NT$ 3,200萬</span></div>
+        <div class="price">NT$ 280萬</div>
+        <span class="btn btn-primary">📩 查看展示頁面 →</span>
+      </div>
+    </a>
+
+    <a href="now/" class="card">
+      <div class="banner"><img src="https://images.unsplash.com/photo-1504711434969-e33886168d6c?w=600" alt="now.com.tw"><div class="overlay"></div><div class="sale">🔴 出售中</div></div>
+      <div class="content">
+        <div class="name" style="color:#6c5ce7">now.com.tw</div>
+        <div class="tags">新聞媒體 ｜ 即時資訊</div>
+        <div class="desc">「NOW」代表即時、當下，是新聞媒體、即時資訊平台的絕佳品牌名稱。簡短有力，國際通用，容易記憶。</div>
+        <div class="stat-row"><span>月瀏覽3,200萬+</span><span>會員580萬+</span><span>記者150+</span></div>
+        <div class="price">NT$ 180萬</div>
+        <span class="btn btn-primary">📩 查看展示頁面 →</span>
+      </div>
+    </a>
+
+    <a href="sweet/" class="card">
+      <div class="banner"><img src="https://images.unsplash.com/photo-1486427944544-d2c246c4c5b6?w=600" alt="sweet.com.tw"><div class="overlay"></div><div class="sale">🔴 出售中</div></div>
+      <div class="content">
+        <div class="name" style="color:#fd79a8">sweet.com.tw</div>
+        <div class="tags">甜點烘焙 ｜ 美食品牌</div>
+        <div class="desc">「Sweet」甜蜜、甜美，適用於甜點烘焙品牌、美食平台、生活風格品牌。發音優美，全球通用的正面詞彙。</div>
+        <div class="stat-row"><span>GMV NT$ 1.8億</span><span>商家280+</span><span>會員35萬</span></div>
+        <div class="price">NT$ 120萬</div>
+        <span class="btn btn-primary">📩 查看展示頁面 →</span>
+      </div>
+    </a>
+
+    <a href="iloveyou/" class="card">
+      <div class="banner"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600" alt="iloveyou.com.tw"><div class="overlay"></div><div class="sale">🔴 出售中</div></div>
+      <div class="content">
+        <div class="name" style="color:#e84393">iloveyou.com.tw</div>
+        <div class="tags">禮物電商 ｜ 浪漫品牌 ｜ 情感行銷</div>
+        <div class="desc">「I Love You」全世界最知名的三個字，適用於禮物電商、婚禮企劃、情感品牌。極具情感價值與品牌辨識度。</div>
+        <div class="stat-row"><span>告白成功率89%</span><span>會員12萬+</span><span>成功配對5.6萬對</span></div>
+        <div class="price">NT$ 98萬</div>
+        <span class="btn btn-primary">📩 查看展示頁面 →</span>
+      </div>
+    </a>
+
+    <a href="100safe/" class="card" style="grid-column:span 1">
+      <div class="banner"><img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600" alt="100safe.com"><div class="overlay"></div><div class="sale">🔴 出售中</div></div>
+      <div class="content">
+        <div class="name" style="color:#0984e3">100safe.com</div>
+        <div class="tags">交易擔保 ｜ 安全支付 ｜ 防詐平台</div>
+        <div class="desc">「100Safe」= 100%安全，是交易擔保、安全支付、防詐騙平台的完美品牌名稱。傳遞信任與安心的承諾。</div>
+        <div class="stat-row"><span>擔保交易NT$ 5.7億</span><span>零詐騙100%</span><span>用戶8.5萬</span></div>
+        <div class="price">NT$ 220萬</div>
+        <span class="btn btn-primary">📩 查看展示頁面 →</span>
+      </div>
+    </a>
+  </div>
 </div>
-</section>
 
-<section class="section" style="text-align:center;padding-bottom:80px;">
-<div class="section-title"><h2>對以上域名有興趣？</h2></div>
-<div style="font-size:18px;margin-bottom:10px;"><i class="fas fa-envelope" style="color:#00ff88;"></i> superpay.vip@gmail.com</div>
-<div style="font-size:14px;color:#667788;">主旨請註明您有興趣的域名，我們將提供完整資料</div>
-</section>
+<div class="footer">
+  <div class="big-email">📧 <a href="mailto:superpay.vip@gmail.com?subject=域名購買諮詢">superpay.vip@gmail.com</a></div>
+  <p>對任何域名感興趣？來信請告知域名名稱，我們將盡快與您聯繫</p>
+  <p style="margin-top:12px">© 2026 Premium Domain Portfolio — 此網站為域名展示頁</p>
+</div>
 
-<footer><p>© 2025 Premium Domains — 域名出售展示頁面</p></footer>
 </body>
 </html>

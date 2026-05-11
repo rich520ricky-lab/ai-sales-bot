@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>now.com.tw 功能特色 | 域名出售</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans TC',sans-serif;background:#0f0f1e;color:#e0e0e0;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,15,30,0.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 40px;}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px;}
+.nav-logo{font-size:22px;font-weight:900;color:#fff;letter-spacing:-1px;}
+.nav-links{display:flex;gap:5px;}
+.nav-links a{padding:8px 18px;border-radius:8px;font-size:14px;color:#8899aa;transition:all 0.3s;}
+.nav-links a:hover,.nav-links a.active{background:rgba(b4,50,ff,0.15);color:#b450ff;}
+.nav-sale-tag{font-size:12px;color:#ffc800;background:rgba(255,200,0,0.1);border:1px solid rgba(255,200,0,0.2);padding:6px 16px;border-radius:20px;letter-spacing:1px;}
+.domain-badge{position:fixed;top:80px;right:20px;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);border:1px solid #b450ff44;border-radius:12px;padding:12px 20px;z-index:99;text-align:center;line-height:1.4;}
+.domain-badge .domain{font-size:16px;font-weight:700;color:#b450ff;}
+.domain-badge .for-sale{font-size:11px;color:#ffc800;letter-spacing:1px;}
+.page-hero{padding:120px 20px 80px;text-align:center;background:linear-gradient(135deg,#0f0f1e,#2a1050);}
+.page-hero h1{font-size:48px;font-weight:700;color:#fff;margin-bottom:15px;}
+.page-hero p{font-size:18px;color:#8899aa;max-width:600px;margin:0 auto;}
+.section{padding:80px 20px;max-width:1100px;margin:0 auto;}
+.section-title{text-align:center;margin-bottom:50px;}
+.section-title h2{font-size:36px;font-weight:700;color:#fff;margin-bottom:12px;}
+.section-title p{color:#667788;font-size:15px;}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;}
+.card{background:linear-gradient(145deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:35px 28px;transition:all 0.3s;}
+.card:hover{transform:translateY(-4px);border-color:#b450ff44;box-shadow:0 15px 40px rgba(0,0,0,0.3);}
+.card .icon{font-size:32px;color:#b450ff;margin-bottom:18px;}
+.card h3{color:#fff;font-size:18px;margin-bottom:10px;}
+.card p{color:#8899aa;font-size:14px;line-height:1.7;}
+.metrics-box{background:linear-gradient(135deg,#b450ff08,#ff6bcb08);border-radius:24px;padding:50px;margin-top:50px;}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:25px;}
+.metric-item{text-align:center;padding:15px;}
+.metric-item .num{font-size:36px;font-weight:700;background:linear-gradient(135deg,#b450ff,#ff6bcb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.metric-item .label{color:#8899aa;font-size:13px;margin-top:5px;}
+.contact-info-box{background:#b450ff08;border:1px solid #b450ff22;border-radius:20px;padding:50px;max-width:550px;margin:0 auto;}
+.contact-item{font-size:18px;margin:15px 0;color:#ccc;}
+.contact-item i{color:#b450ff;width:30px;}
+.contact-form{max-width:500px;margin:30px auto 0;text-align:left;}
+.contact-form input,.contact-form textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 18px;color:#fff;font-size:15px;margin-bottom:14px;outline:none;font-family:inherit;}
+.contact-form input:focus,.contact-form textarea:focus{border-color:#b450ff;}
+.contact-form button{width:100%;background:linear-gradient(135deg,#b450ff,#ff6bcb);border:none;padding:15px;border-radius:10px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;}
+.contact-form button:hover{opacity:0.9;}
+footer{text-align:center;padding:40px;color:#445555;font-size:13px;border-top:1px solid rgba(255,255,255,0.04);line-height:2;}
+footer p{color:#445555;}
+.price-tag{display:inline-block;background:linear-gradient(135deg,#b450ff,#ff6bcb);color:#fff;padding:14px 40px;border-radius:50px;font-size:20px;font-weight:700;margin-top:20px;}
+@media(max-width:768px){.nav{padding:0 15px;}.nav-links a{padding:6px 12px;font-size:12px;}.page-hero h1{font-size:32px;}.metrics-box{padding:25px 15px;}.domain-badge{right:10px;padding:8px 14px;}.domain-badge .domain{font-size:13px;}}
+</style></head>
+<body>
+<nav class="nav">
+<div class="nav-inner">
+<a href="index.html" class="nav-logo">now.com.tw</a>
+<div class="nav-links"><a href="index.html" class="">首頁</a><a href="about.html" class="">關於</a><a href="features.html" class="active">功能</a><a href="contact.html" class="">聯絡</a></div><div class="nav-sale-tag">⬡ 出售中</div></div></nav>
+<div class="domain-badge"><div class="domain">now.com.tw</div><div class="for-sale">⬡ 此域名出售中</div></div>
+
+<section class="page-hero">
+<h1>功能特色</h1><p>now.com.tw 的核心服務一覽</p>
+</section>
+
+<section class="section">
+<div class="grid-3"><div class="card"><div class="icon"><i class="跑腿代購"></i></div><h3>fas fa-running</h3><p>文件代送、排隊代買、藥品代購。30 分鐘內抵達，即時追蹤服務者位置。</p></div>
+<div class="card"><div class="icon"><i class="居家維修"></i></div><h3>fas fa-wrench</h3><p>水電、空調、油漆、家具組裝。所有師傅通過身分認證與技能考核。</p></div>
+<div class="card"><div class="icon"><i class="寵物服務"></i></div><h3>fas fa-paw</h3><p>寵物保母、遛狗、美容、寵物接送。每筆訂單附寵物保險。</p></div>
+<div class="card"><div class="icon"><i class="線上教學"></i></div><h3>fas fa-chalkboard-teacher</h3><p>語言、樂器、運動、程式設計。真人一對一視訊教學，彈性預約時間。</p></div>
+<div class="card"><div class="icon"><i class="居家清潔"></i></div><h3>fas fa-broom</h3><p>定期清潔、大掃除、搬家清潔、除霉消毒。清潔人員皆投保責任險。</p></div>
+<div class="card"><div class="icon"><i class="緊急任務"></i></div><h3>fas fa-ambulance</h3><p>24/7 緊急支援：鎖匠、醫療陪同、緊急送件。專屬快速通道 15 分鐘抵達。</p></div>
+<div class="card"><div class="icon"><i class="代駕服務"></i></div><h3>fas fa-car</h3><p>酒後代駕、長途代駕、車輛托運。司機皆通過嚴格背景調查。</p></div>
+<div class="card"><div class="icon"><i class="私廚到府"></i></div><h3>fas fa-utensils</h3><p>專業私廚到家料理，從家常菜到宴會級料理。特殊飲食需求也可安排。</p></div>
+</div>
+</section>
+
+<section class="section" style="text-align:center;padding-bottom:80px;">
+<div class="section-title"><h2>對 now.com.tw 有興趣？</h2></div>
+<div class="contact-info-box">
+<div class="contact-item"><i class="fas fa-envelope"></i> superpay.vip@gmail.com</div>
+<div class="contact-item"><i class="fas fa-tag"></i> 主旨請註明「now.com.tw 域名購買諮詢」</div>
+</div>
+</section>
+
+<footer><footer><p>© 2025 now.com.tw — 域名出售展示頁面，所有數據均為虛構</p>
+<p>聯絡：superpay.vip@gmail.com</p></footer></footer>
+</body></html>

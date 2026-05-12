@@ -1,29 +1,37 @@
-<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>100safe.com — 資訊安全 | 此域名出售中</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><style>
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,sans-serif;background:#0a0a0f;color:#fff;line-height:1.6}.top-bar{background:rgba(239,68,68,0.12);border-bottom:1px solid rgba(239,68,68,0.2);text-align:center;padding:10px;font-size:0.85em;color:#ef4444}.top-bar a{color:#ef4444;text-decoration:underline}
-nav{background:rgba(10,10,15,0.95);backdrop-filter:blur(10px);border-bottom:1px solid #1a1a2e;padding:16px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
-nav .logo{font-size:1.3em;font-weight:700;color:#0984e3}nav .logo span{color:#94a3b8;font-weight:400}
-nav .links{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-nav .links a{color:#94a3b8;text-decoration:none;font-size:0.75em;transition:color 0.2s;white-space:nowrap}nav .links a:hover{color:#0984e3}
-.page-hero{padding:60px 40px;text-align:center;background:linear-gradient(135deg,#0a0a1f,#0a1a2a,#0a0a1f)}
-.page-hero h1{font-size:2.5em;font-weight:700}.page-hero h1 span{color:#0984e3}.page-hero p{color:#94a3b8;max-width:600px;margin:12px auto 0}
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>100Safe 資安防護 — <span>資訊</span> 安全</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter','Noto Sans TC',sans-serif;background:#0a0a1a;color:#e0e0e0}a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
+:root{--cyan:#00d4ff;--green:#00ff88;--purple:#7c4dff;--red:#ff3d57}
+.top-bar{background:#1a1a2e;color:#888;text-align:center;padding:8px 40px;font-size:13px}
+.top-bar a{color:var(--cyan)}
+header{background:rgba(10,10,26,.95);backdrop-filter:blur(15px);border-bottom:1px solid rgba(0,212,255,.15);position:sticky;top:0;z-index:100;padding:15px 60px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:28px;font-weight:800;color:#fff;display:flex;align-items:center;gap:10px}
+.logo span{color:var(--cyan)}
+.page-hero{padding:60px 40px;text-align:center;background:linear-gradient(135deg,#0a0a1a,#1a1a3e);color:#fff}
+.page-hero h1{font-size:2.5em;font-weight:800}
+.page-hero h1 span{color:var(--cyan)}
+.page-hero p{color:#888;max-width:600px;margin:12px auto 0}
 .section{max-width:1200px;margin:0 auto;padding:60px 40px}
-.price-section{text-align:center;padding:60px 40px;background:linear-gradient(135deg,#0a0a1f,#0a1a2a,#0a0a1f);border-top:1px solid rgba(255,255,255,0.05)}
-.price-section .old-price{color:#94a3b8;font-size:1.1em;text-decoration:line-through;margin-bottom:4px}
-.price-section .price{font-size:3.5em;font-weight:800;color:#34d399}
-.price-section .sub{color:#94a3b8;margin:12px 0 24px;font-size:1.05em}
-.price-section .btn{display:inline-block;background:#0984e3;color:#fff;padding:16px 40px;border-radius:10px;font-weight:600;text-decoration:none;font-size:1.1em;transition:all 0.2s}.price-section .btn:hover{opacity:0.9;transform:translateY(-2px)}
-.price-section .sub-note{color:#666;font-size:0.85em;margin-top:12px}
-.footer{text-align:center;padding:32px;border-top:1px solid #1a1a2e;color:#666;font-size:0.85em}.footer a{color:#0984e3;text-decoration:none}
+.section h2{font-size:1.8em;font-weight:700;margin-bottom:12px}
+.section h2 span{color:var(--cyan)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.card{background:rgba(17,17,40,.8);border:1px solid rgba(0,212,255,.15);border-radius:12px;padding:24px;transition:all .3s}
+.card:hover{border-color:rgba(0,212,255,.4);transform:translateY(-2px)}
+.card img{width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:12px}
+.card h3{font-size:1.15em;color:#fff;margin-bottom:8px}
+.card p{color:#888;font-size:0.9em;line-height:1.6}
+.price-section{text-align:center;padding:60px 40px;background:linear-gradient(135deg,#0a0a1a,#1a1a3e);border-top:1px solid rgba(0,212,255,.15)}
+.price-section .price{font-size:3em;font-weight:800;color:var(--cyan)}
+.price-section .sub{color:#888;margin:12px 0 24px}
+.price-section .btn{display:inline-block;background:linear-gradient(135deg,var(--cyan),var(--green));color:#0a0a1a;padding:14px 36px;border-radius:8px;font-weight:700;font-size:1.1em;text-decoration:none}
+.price-section .btn:hover{box-shadow:0 0 20px rgba(0,212,255,.3)}
+.price-section .note{color:#666;font-size:0.85em;margin-top:12px}
+.footer{background:#0a0a1a;border-top:1px solid rgba(0,212,255,.1);padding:32px 40px;text-align:center;color:#666;font-size:0.9em}
+.footer a{color:var(--cyan)}
 </style></head><body>
-<div class="top-bar">🔴 <strong>此域名出售</strong>（價格已被議價）— <a href="mailto:superpay.vip@gmail.com?subject=100safe.com 域名購買">superpay.vip@gmail.com</a></div>
-<nav><div class="logo" style="color:#0984e3">100safe<span>.com</span></div><div class="links"><a href="index.html">首頁</a><a href="about.html">關於</a><a href="features.html">功能</a><a href="pricing.html">方案</a><a href="team.html">團隊</a><a href="testimonials.html">評價</a><a href="blog.html">Blog</a><a href="faq.html">FAQ</a><a href="contact.html">聯絡</a><a href="case-studies.html">案例</a><a href="technology.html">技術</a><a href="partners.html">合作</a><a href="careers.html">徵才</a><a href="press.html">新聞</a><a href="roadmap.html">路線</a><a href="security.html">安全</a><a href="sustainability.html">ESG</a><a href="download.html">下載</a><a href="gallery.html">圖庫</a><a href="recipes.html">食譜</a><a href="press-kit.html">媒體</a><a href="media-kit.html">媒體</a><a href="success-stories.html">故事</a><a href="blog-extra.html">文章</a><a href="compliance.html">法遵</a></div></nav>
-<div class="page-hero"><h1>📋 <span>資訊安全</span></h1><p>100safe.com 的資訊安全</p></div>
-<div class="section"><p style="color:#94a3b8;text-align:center;font-size:1.1em;line-height:1.8">歡迎來到 100safe.com 的資訊安全頁面。我們致力於提供最專業的服務，<br>若有任何問題請透過以下方式與我們聯繫。</p></div>
-<div class="price-section">
-<p class="old-price">原價 NT$ 220萬</p><div class="price">NT$ 660萬</div>
-<div class="sub">包含完整品牌網站（18頁）、技術架構、商標權與所有數據資產</div>
-<a href="mailto:superpay.vip@gmail.com?subject=100safe.com 域名購買諮詢" class="btn">📩 立即購買此域名</a>
-<p class="sub-note">主旨：100safe.com 域名購買諮詢</p>
-</div>
-<div class="footer"><p>📧 <a href="mailto:superpay.vip@gmail.com?subject=100safe.com 域名購買">superpay.vip@gmail.com</a></p><p style="margin-top:8px">© 2026 100safe.com — 域名展示頁</p></div>
+<div class="top-bar">🔴 <strong>此域名出售中</strong> — <a href="mailto:superpay.vip@gmail.com?subject=100safe.com 域名購買">superpay.vip@gmail.com</a></div>
+<header><div class="logo"><span style="color:var(--cyan)">100</span>Safe</div><nav style="display:flex;gap:20px;flex-wrap:wrap"><a href="index.html" style="color:#888;font-size:13px;letter-spacing:.5px;transition:color .2s">首頁</a><a href="about.html" style="color:#888;font-size:13px;letter-spacing:.5px;transition:color .2s">關於</a><a href="features.html" style="color:#888;font-size:13px;letter-spacing:.5px;transition:color .2s">功能</a><a href="pricing.html" style="color:#888;font-size:13px;letter-spacing:.5px;transition:color .2s">方案</a><a href="team.html" style="color:#888;font-size:13px;letter-spacing:.5px;transition:color .2s">團隊</a><a href="testimonials.html" style="color:#888;font-size:13px;letter-spacing:.5px;transition:color .2s">評價</a><a href="blog.html" style="color:#888;font-size:13px;letter-spacing:.5px;transition:color .2s">部落格</a><a href="faq.html" style="color:#888;font-size:13px;letter-spacing:.5px;transition:color .2s">FAQ</a><a href="contact.html" style="color:#888;font-size:13px;letter-spacing:.5px;transition:color .2s">聯絡</a><a href="security.html" style="color:#888;font-size:13px;letter-spacing:.5px;transition:color .2s">資安</a></nav></header>
+<div class="page-hero"><h1><span>資訊</span> 安全</h1><p>我們的資安承諾</p></div>
+<div class="section"><div class="grid"><div class="card"><h3>🔒 端到端加密</h3><p style="color:#888">所有資料傳輸全程加密</p></div></div></div>
+<div class="price-section"><div class="price">NT$ 220萬</div><div class="sub">完整品牌網站，立即擁有！</div><a href="mailto:superpay.vip@gmail.com?subject=100safe.com 域名購買諮詢" class="btn">📩 立即購買此域名</a><p class="note">主旨：100safe.com 域名購買諮詢</p></div>
+<div class="footer"><p>📧 <a href="mailto:superpay.vip@gmail.com?subject=100safe.com 域名購買">superpay.vip@gmail.com</a></p><p style="margin-top:12px">© 2026 100safe.com — 域名展示頁</p></div>
 </body></html>

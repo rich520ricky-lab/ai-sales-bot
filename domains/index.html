@@ -2,125 +2,158 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Premium Domains Portfolio — 精選網域出售</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Domain Portfolio — 精選網域出售</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;line-height:1.6;min-height:100vh}
-.hero{padding:100px 20px;text-align:center;background:linear-gradient(135deg,#0a0a0f 0%,#1a1a2e 50%,#0a0a0f 100%);position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(99,102,241,0.06) 0%,transparent 50%);animation:pls 8s ease-in-out infinite}
-@keyframes pls{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-.hero h1{font-size:3.2em;font-weight:800;background:linear-gradient(135deg,#fff,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
-.hero p{font-size:1.1em;color:#94a3b8;max-width:600px;margin:0 auto 24px;line-height:1.6}
-.hero .badge{display:inline-block;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25);color:#ef4444;padding:6px 18px;border-radius:20px;font-size:0.85em;font-weight:600;margin-bottom:20px}
-.hero .email{color:#818cf8;font-size:1em}
-.hero .email a{color:#818cf8;text-decoration:none;border-bottom:1px dashed}
-.container{max-width:1200px;margin:0 auto;padding:40px 20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px}
-.card{background:linear-gradient(145deg,#1a1a2e,#12121a);border:1px solid #2a2a3e;border-radius:16px;overflow:hidden;transition:all 0.3s;cursor:pointer;text-decoration:none;color:inherit;display:block}
-.card:hover{transform:translateY(-4px);border-color:#818cf8;box-shadow:0 8px 32px rgba(99,102,241,0.12)}
-.card .banner{height:180px;position:relative;overflow:hidden}
-.card .banner img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
-.card:hover .banner img{transform:scale(1.05)}
-.card .banner .overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,15,0.92) 0%,transparent 50%)}
-.card .banner .sale{position:absolute;top:12px;right:12px;background:rgba(239,68,68,0.9);color:#fff;padding:5px 12px;border-radius:20px;font-size:0.75em;font-weight:700;letter-spacing:0.3px}
-.card .content{padding:20px}
-.card .name{font-size:1.6em;font-weight:700;margin-bottom:4px}
-.card .tags{color:#818cf8;font-size:0.8em;margin-bottom:8px;letter-spacing:0.5px}
-.card .desc{color:#94a3b8;font-size:0.9em;line-height:1.5;margin-bottom:12px}
-.card .stat-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.card .stat-row span{background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.15);padding:4px 10px;border-radius:6px;font-size:0.8em;color:#818cf8}
-.card .price{font-size:1.4em;font-weight:700;color:#34d399;margin-bottom:12px}
-.card .btn{display:inline-block;padding:8px 20px;border-radius:6px;font-weight:600;font-size:0.85em;text-decoration:none;transition:all 0.2s}
-.card .btn-primary{background:#818cf8;color:#fff;margin-right:8px}
-.card .btn-primary:hover{background:#6366f1}
-.card .btn-outline{border:1px solid #2a2a3e;color:#94a3b8}
-.card .btn-outline:hover{border-color:#818cf8;color:#fff}
-.footer{text-align:center;padding:40px;border-top:1px solid #1a1a2e;color:#666;font-size:0.9em}
-.footer a{color:#818cf8;text-decoration:none}
-.footer .big-email{font-size:1.2em;margin-bottom:8px}
-@media(max-width:768px){.hero h1{font-size:2em}.grid{grid-template-columns:1fr}}
+body{font-family:'Inter','Noto Sans TC',sans-serif;background:#0a0a1a;color:#e0e0e0;min-height:100vh}
+a{text-decoration:none;color:inherit}
+
+.bg-grid{position:fixed;inset:0;background:linear-gradient(rgba(100,100,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(100,100,255,.03) 1px,transparent 1px);background-size:60px 60px}
+.bg-glow1{position:fixed;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(99,102,241,.15),transparent 70%);z-index:0}
+.bg-glow2{position:fixed;bottom:-200px;left:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(16,185,129,.1),transparent 70%);z-index:0}
+
+.container{max-width:1100px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+
+header{padding:30px 0;text-align:center}
+header .badge{display:inline-block;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);color:#818cf8;padding:6px 18px;border-radius:20px;font-size:12px;letter-spacing:2px;margin-bottom:20px;text-transform:uppercase}
+header h1{font-size:48px;font-weight:900;color:#fff;margin-bottom:12px;letter-spacing:-1px}
+header h1 span{background:linear-gradient(135deg,#818cf8,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+header p{font-size:16px;color:#888;max-width:600px;margin:0 auto;line-height:1.7}
+
+.domain-grid{display:grid;grid-template-columns:1fr;gap:30px;padding:50px 0}
+
+.domain-card{background:rgba(17,17,40,.8);border:1px solid rgba(99,102,241,.15);border-radius:20px;overflow:hidden;transition:all .4s;cursor:pointer;display:grid;grid-template-columns:1fr 1fr;min-height:340px}
+.domain-card:hover{border-color:rgba(99,102,241,.4);transform:translateY(-5px);box-shadow:0 20px 60px rgba(99,102,241,.1)}
+.domain-card .preview{position:relative;overflow:hidden}
+.domain-card .preview img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.domain-card:hover .preview img{transform:scale(1.05)}
+.domain-card .preview .overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.3),transparent);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.domain-card:hover .preview .overlay{opacity:1}
+.preview .overlay a{background:rgba(255,255,255,.95);color:#333;padding:12px 30px;border-radius:10px;font-weight:700;font-size:14px;transition:all .2s}
+.preview .overlay a:hover{background:#fff;transform:scale(1.05)}
+
+.domain-card .info{padding:35px;display:flex;flex-direction:column;justify-content:center}
+.domain-card .domain-name{font-size:32px;font-weight:800;color:#fff;margin-bottom:8px}
+.domain-card .domain-name .ext{color:#888;font-weight:400}
+.domain-card .tagline{font-size:15px;color:#818cf8;margin-bottom:15px;font-weight:500}
+.domain-card .desc{font-size:14px;color:#888;line-height:1.7;margin-bottom:20px}
+.domain-card .tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.domain-card .tag{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.2);color:#a5b4fc;padding:4px 12px;border-radius:6px;font-size:11px;letter-spacing:.5px}
+.domain-card .view-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;padding:12px 25px;border-radius:10px;font-size:14px;font-weight:600;transition:all .3s;width:fit-content}
+.domain-card .view-btn:hover{box-shadow:0 5px 20px rgba(99,102,241,.3);transform:translateY(-2px)}
+
+.domain-card:nth-child(2n) {direction:rtl}
+.domain-card:nth-child(2n) .preview{direction:ltr}
+.domain-card:nth-child(2n) .info{direction:ltr}
+
+.contact{text-align:center;padding:60px 0 30px}
+.contact h2{font-size:28px;font-weight:800;color:#fff;margin-bottom:10px}
+.contact p{color:#888;font-size:15px;margin-bottom:25px}
+.contact .email{display:inline-flex;align-items:center;gap:10px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.3);color:#818cf8;padding:14px 30px;border-radius:12px;font-size:18px;font-weight:600;transition:all .3s}
+.contact .email:hover{background:rgba(99,102,241,.15);border-color:rgba(99,102,241,.5)}
+.contact .note{margin-top:15px;font-size:13px;color:#666}
+
+footer{text-align:center;padding:30px 0 40px;font-size:12px;color:#555;border-top:1px solid rgba(255,255,255,.05);margin-top:40px}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="badge">🔴 五個高價值域名 立即出售中</div>
-  <h1>精選 優質網域 出售</h1>
-  <p>五個 premium .com.tw 域名，每個都擁有完整的品牌形象網站、真實業績數據與商業模式。<br>立即擁有，接手營運！</p>
-  <div class="email">📧 聯絡購買：<a href="mailto:superpay.vip@gmail.com?subject=域名購買諮詢">superpay.vip@gmail.com</a></div>
-</div>
+<div class="bg-grid"></div>
+<div class="bg-glow1"></div>
+<div class="bg-glow2"></div>
 
 <div class="container">
-  <div class="grid">
-    <a href="market/" class="card">
-      <div class="banner"><img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=600" alt="market.com.tw"><div class="overlay"></div><div class="sale">🔴 出售中</div></div>
-      <div class="content">
-        <div class="name" style="color:#00b894">market.com.tw</div>
-        <div class="tags">電子商務 ｜ 市集平台</div>
-        <div class="desc">「Market」市場、市集，是電商平台、線上交易所、市集的頂級品牌域名。直覺性極強，一看就懂的商業域名。</div>
-        <div class="stat-row"><span>GMV NT$ 12.5億</span><span>商家1,800+</span><span>月營收NT$ 3,200萬</span></div>
-        <div class="price">NT$ 280萬</div>
-        <span class="btn btn-primary">📩 查看展示頁面 →</span>
-      </div>
-    </a>
+<header>
+<div class="badge"><i class="fas fa-gem"></i> Premium Domain Portfolio</div>
+<h1>精選 <span>優質網域</span> 出售</h1>
+<p>以下為精心經營的優質網域，每個網域都具備極高的品牌價值與商業潛力。歡迎有意者來信洽談。</p>
+</header>
 
-    <a href="now/" class="card">
-      <div class="banner"><img src="https://images.unsplash.com/photo-1504711434969-e33886168d6c?w=600" alt="now.com.tw"><div class="overlay"></div><div class="sale">🔴 出售中</div></div>
-      <div class="content">
-        <div class="name" style="color:#6c5ce7">now.com.tw</div>
-        <div class="tags">新聞媒體 ｜ 即時資訊</div>
-        <div class="desc">「NOW」代表即時、當下，是新聞媒體、即時資訊平台的絕佳品牌名稱。簡短有力，國際通用，容易記憶。</div>
-        <div class="stat-row"><span>月瀏覽3,200萬+</span><span>會員580萬+</span><span>記者150+</span></div>
-        <div class="price">NT$ 180萬</div>
-        <span class="btn btn-primary">📩 查看展示頁面 →</span>
-      </div>
-    </a>
+<div class="domain-grid">
 
-    <a href="sweet/" class="card">
-      <div class="banner"><img src="https://images.unsplash.com/photo-1486427944544-d2c246c4c5b6?w=600" alt="sweet.com.tw"><div class="overlay"></div><div class="sale">🔴 出售中</div></div>
-      <div class="content">
-        <div class="name" style="color:#fd79a8">sweet.com.tw</div>
-        <div class="tags">甜點烘焙 ｜ 美食品牌</div>
-        <div class="desc">「Sweet」甜蜜、甜美，適用於甜點烘焙品牌、美食平台、生活風格品牌。發音優美，全球通用的正面詞彙。</div>
-        <div class="stat-row"><span>GMV NT$ 1.8億</span><span>商家280+</span><span>會員35萬</span></div>
-        <div class="price">NT$ 120萬</div>
-        <span class="btn btn-primary">📩 查看展示頁面 →</span>
-      </div>
-    </a>
-
-    <a href="iloveyou/" class="card">
-      <div class="banner"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600" alt="iloveyou.com.tw"><div class="overlay"></div><div class="sale">🔴 出售中</div></div>
-      <div class="content">
-        <div class="name" style="color:#e84393">iloveyou.com.tw</div>
-        <div class="tags">禮物電商 ｜ 浪漫品牌 ｜ 情感行銷</div>
-        <div class="desc">「I Love You」全世界最知名的三個字，適用於禮物電商、婚禮企劃、情感品牌。極具情感價值與品牌辨識度。</div>
-        <div class="stat-row"><span>告白成功率89%</span><span>會員12萬+</span><span>成功配對5.6萬對</span></div>
-        <div class="price">NT$ 98萬</div>
-        <span class="btn btn-primary">📩 查看展示頁面 →</span>
-      </div>
-    </a>
-
-    <a href="100safe/" class="card" style="grid-column:span 1">
-      <div class="banner"><img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600" alt="100safe.com"><div class="overlay"></div><div class="sale">🔴 出售中</div></div>
-      <div class="content">
-        <div class="name" style="color:#0984e3">100safe.com</div>
-        <div class="tags">交易擔保 ｜ 安全支付 ｜ 防詐平台</div>
-        <div class="desc">「100Safe」= 100%安全，是交易擔保、安全支付、防詐騙平台的完美品牌名稱。傳遞信任與安心的承諾。</div>
-        <div class="stat-row"><span>擔保交易NT$ 5.7億</span><span>零詐騙100%</span><span>用戶8.5萬</span></div>
-        <div class="price">NT$ 220萬</div>
-        <span class="btn btn-primary">📩 查看展示頁面 →</span>
-      </div>
-    </a>
-  </div>
+<div class="domain-card" onclick="window.location='https://www.now.com.tw/index1.html'">
+<div class="preview">
+<img src="https://images.unsplash.com/photo-1495020689067-958852a7765e?w=600&h=400&fit=crop" alt="NOW">
+<div class="overlay"><a href="now/index.html">查看展示頁面 →</a></div>
+</div>
+<div class="info">
+<div class="domain-name">now<span class="ext">.com.tw</span></div>
+<div class="tagline">即時新聞 ｜ 資訊入口 ｜ 媒體平台</div>
+<div class="desc">「NOW」代表即時、當下，是新聞媒體、即時資訊平台的絕佳品牌名稱。簡短有力，國際通用，容易記憶。</div>
+<div class="tags"><span class="tag">新聞媒體</span><span class="tag">即時資訊</span><span class="tag">3字母</span><span class="tag">.com.tw</span></div>
+<a href="https://www.now.com.tw/index1.html" class="view-btn"><i class="fas fa-external-link-alt"></i> 查看展示</a>
+</div>
 </div>
 
-<div class="footer">
-  <div class="big-email">📧 <a href="mailto:superpay.vip@gmail.com?subject=域名購買諮詢">superpay.vip@gmail.com</a></div>
-  <p>對任何域名感興趣？來信請告知域名名稱，我們將盡快與您聯繫</p>
-  <p style="margin-top:12px">© 2026 Premium Domain Portfolio — 此網站為域名展示頁</p>
+<div class="domain-card" onclick="window.location='https://www.sweet.com.tw/index.html'">
+<div class="preview">
+<img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=600&h=400&fit=crop" alt="Sweet">
+<div class="overlay"><a href="https://www.sweet/index.html">查看展示頁面 →</a></div>
+</div>
+<div class="info">
+<div class="domain-name">sweet<span class="ext">.com.tw</span></div>
+<div class="tagline">甜點品牌 ｜ 烘焙電商 ｜ 美食平台</div>
+<div class="desc">「Sweet」甜蜜、甜美，適用於甜點烘焙品牌、美食平台、生活風格品牌。發音優美，全球通用的正面詞彙。</div>
+<div class="tags"><span class="tag">甜點烘焙</span><span class="tag">美食品牌</span><span class="tag">5字母</span><span class="tag">.com.tw</span></div>
+<a href="https://www.sweet.com.tw/index.html" class="view-btn"><i class="fas fa-external-link-alt"></i> 查看展示</a>
+</div>
+</div>
+
+<div class="domain-card" onclick="window.location='https://www.market.com.tw/index.html'">
+<div class="preview">
+<img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop" alt="Market">
+<div class="overlay"><a href="market/index.html">查看展示頁面 →</a></div>
+</div>
+<div class="info">
+<div class="domain-name">market<span class="ext">.com.tw</span></div>
+<div class="tagline">電商平台 ｜ 線上市集 ｜ 交易平台</div>
+<div class="desc">「Market」市場、市集，是電商平台、線上交易所、市集的頂級品牌域名。直覺性極強，一看就懂的商業域名。</div>
+<div class="tags"><span class="tag">電子商務</span><span class="tag">市集平台</span><span class="tag">6字母</span><span class="tag">.com.tw</span></div>
+<a href="https://www.market.com.tw/index.html" class="view-btn"><i class="fas fa-external-link-alt"></i> 查看展示</a>
+</div>
+</div>
+
+<div class="domain-card" onclick="window.location='https://www.iloveyou.com.tw/index.html'">
+<div class="preview">
+<img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600&h=400&fit=crop" alt="I Love You">
+<div class="overlay"><a href="iloveyou/index.html">查看展示頁面 →</a></div>
+</div>
+<div class="info">
+<div class="domain-name">iloveyou<span class="ext">.com.tw</span></div>
+<div class="tagline">浪漫禮物 ｜ 求婚企劃 ｜ 情感品牌</div>
+<div class="desc">「I Love You」全世界最知名的三個字，適用於禮物電商、婚禮企劃、情感品牌。極具情感價值與品牌辨識度。</div>
+<div class="tags"><span class="tag">禮物電商</span><span class="tag">浪漫品牌</span><span class="tag">情感行銷</span><span class="tag">.com.tw</span></div>
+<a href="https://www.iloveyou.com.tw/index.html" class="view-btn"><i class="fas fa-external-link-alt"></i> 查看展示</a>
+</div>
+</div>
+
+<div class="domain-card" onclick="window.location='https://www.100safe.com/index.html'">
+<div class="preview">
+<img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop" alt="100Safe">
+<div class="overlay"><a href="https://www.100safe/index.html">查看展示頁面 →</a></div>
+</div>
+<div class="info">
+<div class="domain-name">100safe<span class="ext">.com</span></div>
+<div class="tagline">資安防護 ｜ 網路安全 ｜ 企業防禦</div>
+<div class="desc">「100Safe」意指百分百安全，是資安公司、安全防護品牌的頂級域名。品牌含義明確，國際市場適用（.com 全球域名）。</div>
+<div class="tags"><span class="tag">資訊安全</span><span class="tag">企業防護</span><span class="tag">.com 國際域名</span></div>
+<a href="https://www.100safe.com/index.html" class="view-btn"><i class="fas fa-external-link-alt"></i> 查看展示</a>
+</div>
+</div>
+
+</div>
+
+<div class="contact">
+<h2>有興趣洽購？</h2>
+<p>歡迎來信詢問任何網域的價格與轉讓細節</p>
+<a href="mailto:superpay.vip@gmail.com" class="email"><i class="fas fa-envelope"></i> superpay.vip@gmail.com</a>
+<div class="note">我們將在 24 小時內回覆您的來信</div>
+</div>
+
+<footer>© 2026 Premium Domain Portfolio ｜ All Rights Reserved</footer>
 </div>
 
 </body>

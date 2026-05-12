@@ -1,102 +1,44 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>market.com.tw — 方案價格 | 此域名出售中</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Market 好市集 — market.com.tw — 方案與 <span>價格</span></title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff;line-height:1.6}
-.top-bar{background:rgba(239,68,68,0.12);border-bottom:1px solid rgba(239,68,68,0.2);text-align:center;padding:10px;font-size:0.85em;color:#ef4444}
-.top-bar a{color:#ef4444;text-decoration:underline}
-nav{background:rgba(10,10,15,0.95);backdrop-filter:blur(10px);border-bottom:1px solid #1a1a2e;padding:16px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
-nav .logo{font-size:1.3em;font-weight:700;color:#00b894}
-nav .logo span{color:#fff}
-nav .links a{color:#94a3b8;text-decoration:none;margin-left:20px;font-size:0.85em;transition:color 0.2s}
-nav .links a:hover{color:#00b894}
-.page-hero{padding:60px 40px;text-align:center;background:linear-gradient(135deg,#0a0a0f 0%,#0a2a1a 50%,#0a0a0f 100%)}
-.page-hero h1{font-size:2.5em;font-weight:700}
-.page-hero h1 span{color:#00b894}
-.page-hero p{color:#94a3b8;max-width:600px;margin:12px auto 0}
+body{font-family:'Noto Sans TC',sans-serif;background:#f8f9fa;color:#333}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+:root{--primary:#ff6b35;--secondary:#004e89;--accent:#ffc145;--dark:#1a1a2e;--green:#00c853}
+.top-bar{background:var(--dark);color:#ccc;font-size:12px;padding:8px 40px;text-align:center}
+.top-bar a{color:var(--accent)}
+header{background:#fff;box-shadow:0 2px 15px rgba(0,0,0,.08);position:sticky;top:0;z-index:100}
+.header-main{display:flex;align-items:center;justify-content:space-between;padding:12px 40px}
+.logo{font-size:32px;font-weight:900;color:var(--secondary);white-space:nowrap}
+.logo span{color:var(--primary)}
+nav{display:flex;gap:25px;justify-content:center;padding:12px 40px;border-top:1px solid #eee;flex-wrap:wrap}
+nav a{font-size:14px;color:#666;transition:color .2s;white-space:nowrap}
+nav a:hover{color:var(--primary)}
+.page-hero{background:linear-gradient(135deg,var(--secondary),#002a4e);color:#fff;padding:60px 40px;text-align:center}
+.page-hero h1{font-size:2.5em;font-weight:900}
+.page-hero h1 span{color:var(--primary)}
+.page-hero p{color:#ccc;max-width:600px;margin:12px auto 0}
 .section{max-width:1200px;margin:0 auto;padding:60px 40px}
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-bottom:48px}
-.plan{background:#12121a;border:1px solid #1a1a2e;border-radius:16px;padding:32px;text-align:center;transition:all 0.3s}
-.plan:hover{border-color:#00b894;transform:translateY(-4px)}
-.plan.popular{border-color:#00b894;position:relative}
-.plan.popular::before{content:'最受歡迎';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#00b894;color:#fff;padding:4px 16px;border-radius:12px;font-size:0.8em;font-weight:600}
-.plan .name{font-size:1.3em;font-weight:700;margin-bottom:8px}
-.plan .price{font-size:2.5em;font-weight:800;color:#34d399;margin:16px 0}
-.plan .price small{font-size:0.4em;color:#94a3b8}
-.plan .features{list-style:none;text-align:left;margin:24px 0}
-.plan .features li{padding:8px 0;color:#94a3b8;font-size:0.9em;border-bottom:1px solid #1a1a2e}
-.plan .features li::before{content:'✓ ';color:#00b894;font-weight:700}
-.plan .btn{display:block;background:#00b894;color:#fff;padding:12px;border-radius:8px;font-weight:600;text-decoration:none;margin-top:16px}
-.plan .btn:hover{background:#00a37a}
-.price-section{text-align:center;padding:60px 40px;background:#12121a}
-.price-section .price{font-size:2.5em;font-weight:800;color:#34d399}
-.price-section .sub{color:#94a3b8;margin:12px 0 24px}
-.price-section .btn{display:inline-block;background:#00b894;color:#fff;padding:12px 32px;border-radius:8px;font-weight:600;text-decoration:none}
-.footer{text-align:center;padding:32px;border-top:1px solid #1a1a2e;color:#666;font-size:0.85em}
-.footer a{color:#00b894;text-decoration:none}
-@media(max-width:768px){.pricing-grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<div class="top-bar">🔴 <strong>此域名出售中</strong> — <a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 域名購買">superpay.vip@gmail.com</a></div>
-<nav><div class="logo">market<span>.com.tw</span></div><div class="links"><a href="index.html">首頁</a><a href="about.html">關於</a><a href="features.html">功能</a><a href="pricing.html">方案</a><a href="case-studies.html">案例</a><a href="team.html">團隊</a><a href="technology.html">技術</a><a href="testimonials.html">評價</a><a href="blog.html">部落格</a><a href="faq.html">FAQ</a><a href="contact.html">聯絡</a></div></nav>
-<div class="page-hero"><h1>方案與<span>價格</span></h1><p>三種方案滿足不同規模的電商需求，月費制、無隱藏費用</p></div>
-<div class="section">
-  <div class="pricing-grid">
-    <div class="plan">
-      <div class="name">基礎方案</div>
-      <div class="price">NT$ 999<small>/月</small></div>
-      <ul class="features">
-        <li>AI 商品照生成（每月100張）</li>
-        <li>AI 文案撰寫（每月50篇）</li>
-        <li>2 個電商平台同步</li>
-        <li>基本銷售報表</li>
-        <li>Email 客服支援</li>
-        <li>1 個使用者帳號</li>
-      </ul>
-      <a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 方案諮詢" class="btn">立即開始</a>
-    </div>
-    <div class="plan popular">
-      <div class="name">專業方案</div>
-      <div class="price">NT$ 2,999<small>/月</small></div>
-      <ul class="features">
-        <li>AI 商品照生成（每月500張）</li>
-        <li>AI 文案撰寫（每月300篇）</li>
-        <li>6 個電商平台同步</li>
-        <li>進階數據分析儀表板</li>
-        <li>AI 廣告投放優化</li>
-        <li>24/7 AI 客服</li>
-        <li>5 個使用者帳號</li>
-        <li>優先客服支援</li>
-      </ul>
-      <a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 方案諮詢" class="btn">立即開始</a>
-    </div>
-    <div class="plan">
-      <div class="name">企業方案</div>
-      <div class="price">NT$ 9,999<small>/月</small></div>
-      <ul class="features">
-        <li>AI 商品照生成（無限）</li>
-        <li>AI 文案撰寫（無限）</li>
-        <li>12 個電商平台同步</li>
-        <li>完整數據分析 + API</li>
-        <li>全通路廣告投放優化</li>
-        <li>24/7 AI 客服 + 真人客服</li>
-        <li>無限使用者帳號</li>
-        <li>專屬客戶經理</li>
-        <li>客製化功能開發</li>
-      </ul>
-      <a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 方案諮詢" class="btn">聯繫我們</a>
-    </div>
-  </div>
-</div>
-<div class="price-section">
-  <h2>此域名出售中</h2>
-  <div class="price">NT$ 280萬</div>
-  <div class="sub">包含所有品牌資產、網站架構與數據</div>
-  <a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 域名購買" class="btn">📩 立即洽詢</a>
-</div>
-<div class="footer"><p>📧 <a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 域名購買">superpay.vip@gmail.com</a></p><p style="margin-top:8px">© 2026 market.com.tw — 域名展示頁</p></div>
-</body>
-</html>
+.section h2{font-size:1.8em;font-weight:700;margin-bottom:12px}
+.section h2 span{color:var(--primary)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.card{background:#fff;border:1px solid #eee;border-radius:12px;padding:24px;transition:all .3s}
+.card:hover{box-shadow:0 8px 25px rgba(0,0,0,.1);transform:translateY(-2px)}
+.card img{width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:12px}
+.card h3{font-size:1.15em;margin-bottom:8px}
+.card p{color:#666;font-size:0.9em;line-height:1.6}
+.price-section{text-align:center;padding:60px 40px;background:linear-gradient(135deg,var(--secondary),#002a4e);color:#fff}
+.price-section .price{font-size:3em;font-weight:900;color:var(--primary)}
+.price-section .sub{color:#ccc;margin:12px 0 24px}
+.price-section .btn{display:inline-block;background:var(--primary);color:#fff;padding:14px 36px;border-radius:8px;font-weight:700;font-size:1.1em;text-decoration:none;transition:all .2s}
+.price-section .btn:hover{background:#e55a28;transform:translateY(-2px)}
+.price-section .note{color:#888;font-size:0.85em;margin-top:12px}
+.footer{background:var(--dark);color:#ccc;padding:32px 40px;text-align:center;font-size:0.9em}
+.footer a{color:var(--accent);text-decoration:none}
+</style></head><body>
+<div class="top-bar">🔴 <strong>此域名出售中</strong> — 立即擁有這個品牌：<a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 域名購買">superpay.vip@gmail.com</a></div>
+<header><div class="header-main"><div class="logo">Market<span>.</span>com.tw</div></div><nav><a href="index.html">首頁</a><a href="about.html">關於</a><a href="features.html">功能</a><a href="pricing.html">方案</a><a href="team.html">團隊</a><a href="testimonials.html">評價</a><a href="blog.html">部落格</a><a href="faq.html">FAQ</a><a href="contact.html">聯絡</a><a href="careers.html">徵才</a></nav></header>
+<div class="page-hero"><h1>方案與 <span>價格</span></h1></div>
+<div class="section"><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><div class="card" style="text-align:center"><h3>基礎方案</h3><p style="font-size:2em;font-weight:900;color:var(--primary);margin:16px 0">NT$ 999<small style="font-size:0.4em;color:#666">/月</small></p><ul style="list-style:none;text-align:left"><li style="padding:8px 0">✓ AI 商品照（100張/月）</li><li style="padding:8px 0">✓ AI 文案（50篇/月）</li><li style="padding:8px 0">✓ 2 個平台同步</li></ul></div></div></div>
+<div class="price-section"><div class="price">NT$ 280萬</div><div class="sub">完整品牌網站，立即擁有這個高價值域名！</div><a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 域名購買諮詢" class="btn">📩 立即購買此域名</a><p class="note">主旨：market.com.tw 域名購買諮詢</p></div>
+<div class="footer"><p>📧 <a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 域名購買">superpay.vip@gmail.com</a></p><p style="margin-top:12px">© 2026 market.com.tw — 域名展示頁</p></div>
+</body></html>

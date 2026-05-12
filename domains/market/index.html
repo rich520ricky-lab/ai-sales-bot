@@ -3,137 +3,347 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>market.com.tw — AI代營運平台 | 此域名出售中</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Market 好市集 — market.com.tw</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Inter', sans-serif; background: #0a0a0f; color: #fff; line-height: 1.6; }
-.top-bar { background: rgba(239,68,68,0.12); border-bottom: 1px solid rgba(239,68,68,0.2); text-align: center; padding: 10px; font-size: 0.9em; color: #ef4444; }
-.top-bar a { color: #ef4444; text-decoration: underline; }
-nav { background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1a1a2e; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-nav .logo { font-size: 1.3em; font-weight: 700; color: #00b894; }
-nav .logo span { color: #fff; }
-nav .links a { color: #94a3b8; text-decoration: none; margin-left: 24px; font-size: 0.9em; transition: color 0.2s; }
-nav .links a:hover { color: #00b894; }
-.hero { padding: 100px 40px; text-align: center; background: linear-gradient(135deg, #0a0a0f 0%, #0a2a1a 50%, #0a0a0f 100%); position: relative; overflow: hidden; }
-.hero::before { content: ''; position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1556761175-b413da4baf72?w=1200') center/cover; opacity: 0.08; }
-.hero .badge { display: inline-block; background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; padding: 8px 24px; border-radius: 20px; font-size: 0.9em; font-weight: 600; margin-bottom: 24px; }
-.hero h1 { font-size: 3.5em; font-weight: 800; color: #fff; margin-bottom: 16px; }
-.hero h1 span { color: #00b894; }
-.hero p { font-size: 1.2em; color: #94a3b8; max-width: 600px; margin: 0 auto 32px; }
-.hero .cta-btn { display: inline-block; background: #00b894; color: #fff; padding: 14px 36px; border-radius: 10px; font-weight: 600; text-decoration: none; font-size: 1.05em; transition: all 0.2s; }
-.hero .cta-btn:hover { background: #00a37a; transform: translateY(-2px); }
-.stats-bar { display: flex; justify-content: center; gap: 48px; padding: 40px; background: #12121a; border-bottom: 1px solid #1a1a2e; flex-wrap: wrap; }
-.stat-item { text-align: center; }
-.stat-item .num { font-size: 2.2em; font-weight: 800; color: #00b894; }
-.stat-item .label { color: #94a3b8; font-size: 0.9em; margin-top: 4px; }
-.section { max-width: 1200px; margin: 0 auto; padding: 80px 40px; }
-.section h2 { font-size: 2em; font-weight: 700; margin-bottom: 16px; }
-.section h2 span { color: #00b894; }
-.section .subtitle { color: #94a3b8; font-size: 1.05em; margin-bottom: 48px; max-width: 600px; }
-.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 24px; }
-.feature-card { background: #12121a; border: 1px solid #1a1a2e; border-radius: 12px; padding: 32px; transition: all 0.3s; }
-.feature-card:hover { border-color: #00b894; transform: translateY(-2px); }
-.feature-card .icon { font-size: 2.5em; margin-bottom: 16px; }
-.feature-card h3 { font-size: 1.15em; margin-bottom: 8px; }
-.feature-card p { color: #94a3b8; font-size: 0.9em; line-height: 1.6; }
-.showcase { background: linear-gradient(135deg, #0a2a1a, #0a0a0f); padding: 80px 40px; text-align: center; }
-.showcase h2 { font-size: 2em; margin-bottom: 40px; }
-.showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; }
-.showcase-item { background: #12121a; border: 1px solid #1a1a2e; border-radius: 12px; overflow: hidden; }
-.showcase-item img { width: 100%; height: 220px; object-fit: cover; }
-.showcase-item .info { padding: 20px; text-align: left; }
-.showcase-item .info h4 { font-size: 1em; margin-bottom: 6px; }
-.showcase-item .info p { color: #94a3b8; font-size: 0.85em; }
-.price-section { text-align: center; padding: 80px 40px; background: #12121a; }
-.price-section .price { font-size: 3em; font-weight: 800; color: #34d399; }
-.price-section .sub { color: #94a3b8; font-size: 1.1em; margin: 12px 0 32px; }
-.price-section .btn { display: inline-block; background: #00b894; color: #fff; padding: 14px 36px; border-radius: 10px; font-weight: 600; text-decoration: none; }
-.contact-section { max-width: 600px; margin: 0 auto; padding: 80px 40px; text-align: center; }
-.contact-section h2 { margin-bottom: 24px; }
-.contact-section .email { font-size: 1.3em; color: #00b894; margin-bottom: 8px; }
-.contact-section .email a { color: #00b894; text-decoration: none; border-bottom: 1px dashed; }
-.contact-section p { color: #94a3b8; }
-.footer { text-align: center; padding: 32px; border-top: 1px solid #1a1a2e; color: #666; font-size: 0.85em; }
-.footer a { color: #00b894; text-decoration: none; }
-.breadcrumb { max-width: 1200px; margin: 0 auto; padding: 20px 40px 0; color: #666; font-size: 0.85em; }
-.breadcrumb a { color: #666; text-decoration: none; }
-.breadcrumb a:hover { color: #00b894; }
-@media (max-width:768px) { .hero h1 { font-size: 2em; } .hero { padding: 60px 20px; } nav { padding: 12px 20px; } nav .links a { margin-left: 12px; font-size: 0.8em; } .stats-bar { gap: 24px; } .section { padding: 40px 20px; } }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC',sans-serif;background:#f8f9fa;color:#333}
+a{text-decoration:none;color:inherit}
+img{display:block;width:100%;height:100%;object-fit:cover}
+:root{--primary:#ff6b35;--secondary:#004e89;--accent:#ffc145;--dark:#1a1a2e;--green:#00c853}
+
+.top-bar{background:var(--dark);color:#ccc;font-size:12px;padding:8px 0}
+.top-bar .container{display:flex;justify-content:space-between;align-items:center}
+.top-bar a{color:#ccc;margin-left:15px;transition:color .2s}
+.top-bar a:hover{color:var(--accent)}
+
+header{background:#fff;box-shadow:0 2px 15px rgba(0,0,0,.08);position:sticky;top:0;z-index:100}
+.header-main{display:flex;align-items:center;gap:20px;padding:12px 0}
+.logo{font-size:32px;font-weight:900;color:var(--secondary);white-space:nowrap}
+.logo span{color:var(--primary)}
+.search-bar{flex:1;display:flex;border:2px solid var(--primary);border-radius:8px;overflow:hidden}
+.search-bar select{border:none;background:#f5f5f5;padding:10px 15px;font-size:13px;border-right:1px solid #ddd;color:#666;outline:none}
+.search-bar input{flex:1;border:none;padding:10px 15px;font-size:14px;outline:none}
+.search-bar button{background:var(--primary);border:none;color:#fff;padding:10px 25px;cursor:pointer;font-size:16px;transition:background .2s}
+.search-bar button:hover{background:#e55a28}
+.header-actions{display:flex;gap:20px;white-space:nowrap}
+.header-actions a{display:flex;flex-direction:column;align-items:center;color:#666;font-size:11px;transition:color .2s}
+.header-actions a i{font-size:22px;margin-bottom:3px}
+.header-actions a:hover{color:var(--primary)}
+.cart-count{position:relative}
+.cart-count .badge{position:absolute;top:-5px;right:-8px;background:var(--primary);color:#fff;font-size:10px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+
+.cat-nav{background:#fff;border-top:1px solid #eee;border-bottom:1px solid #eee}
+.cat-nav ul{display:flex;list-style:none;justify-content:center;gap:0}
+.cat-nav li a{display:flex;flex-direction:column;align-items:center;padding:12px 22px;font-size:12px;color:#555;transition:all .2s;border-bottom:2px solid transparent}
+.cat-nav li a i{font-size:18px;margin-bottom:4px;color:var(--primary)}
+.cat-nav li a:hover{background:#fff5f0;border-bottom-color:var(--primary);color:var(--primary)}
+
+.container{max-width:1280px;margin:0 auto;padding:0 20px}
+
+.hero-banners{padding:20px 0}
+.banner-grid{display:grid;grid-template-columns:2fr 1fr;gap:15px}
+.banner-main{height:380px;border-radius:12px;overflow:hidden;position:relative;cursor:pointer}
+.banner-main img{width:100%;height:100%;object-fit:cover}
+.banner-main .content{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,53,.85),rgba(255,143,101,.6));display:flex;flex-direction:column;justify-content:center;padding:50px;color:#fff;z-index:1}
+.banner-main h2{font-size:36px;font-weight:900;margin-bottom:10px;line-height:1.3}
+.banner-main p{font-size:16px;opacity:.9;margin-bottom:20px}
+.banner-main .btn{display:inline-block;background:#fff;color:var(--primary);padding:12px 30px;border-radius:8px;font-weight:700;font-size:14px;width:fit-content}
+
+.banner-side{display:flex;flex-direction:column;gap:15px}
+.banner-sm{flex:1;border-radius:12px;padding:25px;color:#fff;cursor:pointer;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.banner-sm h3{font-size:20px;font-weight:700;margin-bottom:5px;position:relative;z-index:1}
+.banner-sm p{font-size:13px;opacity:.9;position:relative;z-index:1}
+
+.flash-sale{padding:30px 0}
+.flash-header{display:flex;align-items:center;gap:20px;margin-bottom:20px}
+.flash-header h2{font-size:24px;font-weight:900;color:var(--primary);display:flex;align-items:center;gap:10px}
+.flash-header h2 i{animation:flash 1s infinite}
+@keyframes flash{0%,100%{opacity:1}50%{opacity:.5}}
+.countdown{display:flex;gap:5px}
+.countdown span{background:var(--dark);color:#fff;padding:5px 10px;border-radius:5px;font-size:16px;font-weight:700;min-width:40px;text-align:center}
+.countdown .sep{background:transparent;color:var(--primary);padding:5px 2px}
+
+.flash-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:15px}
+.flash-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05);cursor:pointer;transition:all .2s;border:1px solid #eee}
+.flash-card:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(0,0,0,.1);border-color:var(--primary)}
+.flash-img{height:160px;position:relative;overflow:hidden}
+.flash-card .discount{position:absolute;top:8px;left:8px;background:var(--primary);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;z-index:1}
+.flash-card .info{padding:12px}
+.flash-card h4{font-size:13px;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4}
+.flash-card .price{color:var(--primary);font-size:18px;font-weight:900}
+.flash-card .original{color:#bbb;font-size:12px;text-decoration:line-through}
+.sold-bar{background:#ffe0d0;border-radius:10px;height:6px;margin-top:8px;overflow:hidden}
+.sold-bar .fill{height:100%;background:var(--primary);border-radius:10px}
+
+.cat-section{padding:30px 0}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.section-header h2{font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px}
+.section-header a{color:var(--primary);font-size:14px}
+
+.product-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:15px}
+.product-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.04);cursor:pointer;transition:all .2s;border:1px solid #eee}
+.product-card:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(0,0,0,.1);border-color:var(--primary)}
+.product-card .img{height:200px;position:relative;overflow:hidden}
+.product-card .img img{transition:transform .3s}
+.product-card:hover .img img{transform:scale(1.05)}
+.product-card .badges{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:4px;z-index:1}
+.product-card .badge-tag{padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;color:#fff}
+.product-card .info{padding:12px}
+.product-card h4{font-size:13px;line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.product-card .price-row{display:flex;align-items:baseline;gap:8px}
+.product-card .price{color:var(--primary);font-size:20px;font-weight:900}
+.product-card .original{color:#bbb;font-size:12px;text-decoration:line-through}
+.product-card .meta{display:flex;justify-content:space-between;font-size:11px;color:#999;margin-top:6px}
+.product-card .rating{color:var(--accent)}
+.product-card .shop{font-size:11px;color:#999;margin-top:8px;padding-top:8px;border-top:1px solid #f0f0f0}
+
+.stats-strip{background:linear-gradient(135deg,var(--secondary),#003566);padding:50px 0;margin:30px 0}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;text-align:center;color:#fff}
+.stats-row .num{font-size:34px;font-weight:900}
+.stats-row .label{font-size:13px;opacity:.8;margin-top:5px}
+
+.brands{padding:40px 0;background:#fff}
+.brand-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:15px}
+.brand-item{border:1px solid #eee;border-radius:10px;padding:20px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#888;height:80px;transition:all .2s;cursor:pointer}
+.brand-item:hover{border-color:var(--primary);color:var(--primary);box-shadow:0 4px 15px rgba(255,107,53,.1)}
+
+.recommend{padding:40px 0}
+.rec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.rec-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 15px rgba(0,0,0,.05);cursor:pointer;transition:all .3s}
+.rec-card:hover{transform:translateY(-5px)}
+.rec-card .img{height:200px;overflow:hidden}
+.rec-card .img img{transition:transform .3s}
+.rec-card:hover .img img{transform:scale(1.05)}
+.rec-card .info{padding:15px}
+.rec-card h4{font-size:14px;margin-bottom:5px}
+.rec-card .price{color:var(--primary);font-size:18px;font-weight:900}
+.rec-card .meta{font-size:11px;color:#999;margin-top:5px}
+
+.trust{padding:40px 0}
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:25px}
+.trust-card{background:#fff;border-radius:12px;padding:25px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.trust-card i{font-size:32px;color:var(--primary);margin-bottom:12px}
+.trust-card h3{font-size:15px;margin-bottom:6px}
+.trust-card p{font-size:12px;color:#888;line-height:1.5}
+
+footer{background:var(--dark);color:#999;padding:50px 0 20px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:30px;margin-bottom:30px}
+.footer-logo{font-size:28px;font-weight:900;color:#fff;margin-bottom:15px}
+.footer-logo span{color:var(--primary)}
+.footer-grid p{font-size:13px;line-height:1.8}
+.footer-grid h4{color:#fff;font-size:14px;margin-bottom:15px}
+.footer-grid ul{list-style:none}
+.footer-grid li{margin-bottom:8px}
+.footer-grid a{color:#999;font-size:13px;transition:color .2s}
+.footer-grid a:hover{color:var(--primary)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:20px;text-align:center;font-size:12px}
+.footer-payments{display:flex;gap:12px;margin-top:12px;justify-content:center;font-size:24px}
+.footer-certs{display:flex;gap:15px;margin-top:10px;justify-content:center;font-size:11px;color:#666}
+.download-btns{display:flex;gap:10px;margin-top:15px}
+.dl-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);padding:8px 15px;border-radius:8px;color:#fff;font-size:12px;transition:background .2s}
+.dl-btn:hover{background:rgba(255,255,255,.2)}
+.dl-btn i{font-size:22px}
+
+.domain-sale-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--dark),#0d1b2a);border-top:2px solid var(--primary);padding:12px 0;z-index:9999;box-shadow:0 -5px 30px rgba(0,0,0,.3)}
+.domain-sale-bar .container{display:flex;align-items:center;justify-content:space-between;max-width:1280px;margin:0 auto;padding:0 20px}
+.domain-sale-bar .domain{font-size:20px;font-weight:900;color:#fff}
+.domain-sale-bar .domain span{color:var(--primary)}
+.domain-sale-bar .msg{color:#aaa;font-size:13px}
+.domain-sale-bar .buy-btn{display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:#fff;padding:12px 30px;border-radius:8px;font-size:14px;font-weight:700;letter-spacing:1px;transition:all .3s;text-decoration:none}
+.domain-sale-bar .buy-btn:hover{background:#e55a28;transform:translateY(-2px);box-shadow:0 5px 20px rgba(255,107,53,.3)}
 </style>
 </head>
 <body>
-<div class="top-bar">🔴 <strong>此域名出售中</strong> — 立即擁有這個品牌：<a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 域名購買諮詢">superpay.vip@gmail.com</a></div>
-<nav>
-  <div class="logo">market<span>.com.tw</span></div>
-  <div class="links">
-    <a href="index.html">首頁</a>
-    <a href="about.html">關於</a>
-    <a href="features.html">功能</a>
-    <a href="pricing.html">方案</a>
-    <a href="case-studies.html">案例</a>
-    <a href="team.html">團隊</a>
-    <a href="technology.html">技術</a>
-    <a href="testimonials.html">評價</a>
-    <a href="blog.html">部落格</a>
-    <a href="faq.html">FAQ</a>
-    <a href="contact.html">聯絡</a>
-  </div>
-</nav>
 
-<div class="hero">
-  <div class="badge">🔴 此域名出售中</div>
-  <h1>AI 驅動 <span>電商代營運</span></h1>
-  <p>台灣最大的AI電商代營運平台 — 從商品照、文案到多平台銷售，全自動AI賦能，讓商家專注於產品本身</p>
-  <a href="contact.html?buy=market" class="cta-btn">📩 立即購買此域名</a>
+<div class="top-bar"><div class="container">
+<div><i class="fas fa-map-marker-alt"></i> 配送至：台灣 ｜ <a href="#">繁體中文</a> ｜ <a href="#">TWD $</a></div>
+<div><a href="#">賣家中心</a><a href="#">下載APP</a><a href="#">追蹤訂單</a><a href="#">客服中心</a></div>
+</div></div>
+
+<header><div class="container">
+<div class="header-main">
+<div class="logo">Market<span>好市集</span></div>
+<div class="search-bar">
+<select><option>全部分類</option><option>3C家電</option><option>服飾配件</option><option>美妝保養</option><option>居家生活</option><option>食品飲料</option></select>
+<input type="text" placeholder="搜尋超過 500 萬件商品...">
+<button><i class="fas fa-search"></i></button>
+</div>
+<div class="header-actions">
+<a href="#"><i class="far fa-bell"></i>通知</a>
+<a href="#"><i class="far fa-heart"></i>收藏</a>
+<a href="#" class="cart-count"><i class="fas fa-shopping-cart"></i>購物車<span class="badge">5</span></a>
+<a href="#"><i class="far fa-user"></i>會員</a>
+</div>
+</div>
+</div></header>
+
+<div class="cat-nav"><div class="container"><ul>
+<li><a href="#"><i class="fas fa-laptop"></i>3C家電</a></li>
+<li><a href="#"><i class="fas fa-tshirt"></i>服飾</a></li>
+<li><a href="#"><i class="fas fa-spa"></i>美妝</a></li>
+<li><a href="#"><i class="fas fa-couch"></i>居家</a></li>
+<li><a href="#"><i class="fas fa-utensils"></i>美食</a></li>
+<li><a href="#"><i class="fas fa-baby"></i>母嬰</a></li>
+<li><a href="#"><i class="fas fa-futbol"></i>運動</a></li>
+<li><a href="#"><i class="fas fa-book"></i>書籍</a></li>
+<li><a href="#"><i class="fas fa-car"></i>汽機車</a></li>
+<li><a href="#"><i class="fas fa-paw"></i>寵物</a></li>
+<li><a href="#"><i class="fas fa-plane"></i>旅遊</a></li>
+<li><a href="#"><i class="fas fa-ticket-alt"></i>票券</a></li>
+</ul></div></div>
+
+<div class="container">
+<div class="hero-banners">
+<div class="banner-grid">
+<div class="banner-main">
+<img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900&h=500&fit=crop" alt="">
+<div class="content">
+<h2>618 年中購物節<br>全場最低1折起</h2>
+<p>5/28 - 6/18 限時搶購 ｜ 天天領神券</p>
+<span class="btn">立即搶購 →</span>
+</div>
+</div>
+<div class="banner-side">
+<div class="banner-sm" style="background:linear-gradient(135deg,#004e89,#0077b6)"><h3>新會員專享</h3><p>註冊立減 $200 ｜ 免運券×3</p></div>
+<div class="banner-sm" style="background:linear-gradient(135deg,#00c853,#00e676)"><h3>超級品牌日</h3><p>Apple / Sony / Samsung 限時特惠</p></div>
+</div>
+</div>
 </div>
 
-<div class="stats-bar">
-  <div class="stat-item"><div class="num">NT$ 12.5億</div><div class="label">年度 GMV</div></div>
-  <div class="stat-item"><div class="num">1,800+</div><div class="label">合作商家</div></div>
-  <div class="stat-item"><div class="num">NT$ 3,200萬</div><div class="label">月營收</div></div>
-  <div class="stat-item"><div class="num">280萬</div><div class="label">平台用戶</div></div>
-  <div class="stat-item"><div class="num">99.7%</div><div class="label">客戶滿意度</div></div>
+<div class="flash-sale">
+<div class="flash-header">
+<h2><i class="fas fa-bolt"></i> 限時搶購</h2>
+<div class="countdown"><span>05</span><span class="sep">:</span><span>23</span><span class="sep">:</span><span>47</span></div>
+<a href="#" style="margin-left:auto;color:var(--primary);font-size:14px">查看全部 →</a>
+</div>
+<div class="flash-grid">
+<div class="flash-card">
+<div class="flash-img"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=200&fit=crop" alt=""><div class="discount">-42%</div></div>
+<div class="info"><h4>無線藍牙耳機 主動降噪 IPX5防水</h4><div class="price">$1,299</div><div class="original">$2,240</div><div class="sold-bar"><div class="fill" style="width:78%"></div></div></div>
+</div>
+<div class="flash-card">
+<div class="flash-img"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=200&fit=crop" alt=""><div class="discount">-55%</div></div>
+<div class="info"><h4>法式碎花連身裙 夏日新款 S-XL</h4><div class="price">$699</div><div class="original">$1,550</div><div class="sold-bar"><div class="fill" style="width:65%"></div></div></div>
+</div>
+<div class="flash-card">
+<div class="flash-img"><img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=300&h=200&fit=crop" alt=""><div class="discount">-38%</div></div>
+<div class="info"><h4>日本有機洗面乳 溫和不刺激 150ml</h4><div class="price">$389</div><div class="original">$628</div><div class="sold-bar"><div class="fill" style="width:90%"></div></div></div>
+</div>
+<div class="flash-card">
+<div class="flash-img"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=200&fit=crop" alt=""><div class="discount">-30%</div></div>
+<div class="info"><h4>智慧手錶 血氧偵測 心律監測 GPS</h4><div class="price">$2,790</div><div class="original">$3,990</div><div class="sold-bar"><div class="fill" style="width:55%"></div></div></div>
+</div>
+<div class="flash-card">
+<div class="flash-img"><img src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=300&h=200&fit=crop" alt=""><div class="discount">-45%</div></div>
+<div class="info"><h4>頸掛式藍牙喇叭 環繞音效 重低音</h4><div class="price">$1,580</div><div class="original">$2,870</div><div class="sold-bar"><div class="fill" style="width:42%"></div></div></div>
+</div>
+<div class="flash-card">
+<div class="flash-img"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&h=200&fit=crop" alt=""><div class="discount">-50%</div></div>
+<div class="info"><h4>北歐風沙發 三人座 高彈力海綿</h4><div class="price">$8,999</div><div class="original">$17,998</div><div class="sold-bar"><div class="fill" style="width:72%"></div></div></div>
+</div>
+</div>
 </div>
 
-<div class="section">
-  <h2>為什麼選擇 <span>market.com.tw</span></h2>
-  <p class="subtitle">AI全自動代營運，讓電商經營變得更聰明、更簡單</p>
-  <div class="features-grid">
-    <div class="feature-card"><div class="icon">📸</div><h3>AI 商品照生成</h3><p>上傳一張產品照，AI自動生成白底圖、情境圖、模特兒實穿照，無需專業攝影</p></div>
-    <div class="feature-card"><div class="icon">✍️</div><h3>AI 文案撰寫</h3><p>根據產品特性自動生成 SEO 優化的商品描述、標題與賣點，轉換率提升 230%</p></div>
-    <div class="feature-card"><div class="icon">📱</div><h3>多平台同步</h3><p>一次上架同步至蝦皮、PChome、momo、露天、奇摩等 12 個電商平台</p></div>
-    <div class="feature-card"><div class="icon">📊</div><h3>AI 數據分析</h3><p>即時競品分析、價格監控、庫存預測，AI自動調整上架策略</p></div>
-    <div class="feature-card"><div class="icon">🎯</div><h3>智慧廣告投放</h3><p>自動生成 Facebook、Google、LINE 廣告素材，AI優化投放預算</p></div>
-    <div class="feature-card"><div class="icon">🤖</div><h3>24/7 AI 客服</h3><p>AI自動回覆買家問題，處理退換貨，節省 80% 客服人力</p></div>
-  </div>
+<div class="cat-section">
+<div class="section-header"><h2><i class="fas fa-fire" style="color:var(--primary)"></i> 熱銷排行</h2><a href="#">查看更多 →</a></div>
+<div class="product-grid">
+<div class="product-card">
+<div class="img"><img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300&h=250&fit=crop" alt=""><div class="badges"><span class="badge-tag" style="background:var(--primary)">TOP 1</span></div></div>
+<div class="info"><h4>MacBook Air M4 13吋 256GB 午夜色</h4><div class="price-row"><span class="price">$34,900</span><span class="original">$37,900</span></div><div class="meta"><span class="rating">★★★★★ 4.9</span><span>已售 12.5K</span></div><div class="shop"><i class="fas fa-store"></i> Apple 官方旗艦店</div></div>
+</div>
+<div class="product-card">
+<div class="img"><img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&h=250&fit=crop" alt=""><div class="badges"><span class="badge-tag" style="background:var(--primary)">TOP 2</span></div></div>
+<div class="info"><h4>SK-II 青春露 230ml 經典限定版</h4><div class="price-row"><span class="price">$4,680</span><span class="original">$5,880</span></div><div class="meta"><span class="rating">★★★★★ 4.8</span><span>已售 8.9K</span></div><div class="shop"><i class="fas fa-store"></i> SK-II 官方店</div></div>
+</div>
+<div class="product-card">
+<div class="img"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=250&fit=crop" alt=""><div class="badges"><span class="badge-tag" style="background:var(--green)">免運</span></div></div>
+<div class="info"><h4>Nike Air Max 270 經典氣墊跑鞋 黑白</h4><div class="price-row"><span class="price">$3,280</span><span class="original">$4,500</span></div><div class="meta"><span class="rating">★★★★★ 4.9</span><span>已售 6.3K</span></div><div class="shop"><i class="fas fa-store"></i> Nike 台灣官方</div></div>
+</div>
+<div class="product-card">
+<div class="img"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=250&fit=crop" alt=""><div class="badges"><span class="badge-tag" style="background:#9c27b0">新品</span></div></div>
+<div class="info"><h4>Dyson V15s 無線吸塵器 雷射偵測</h4><div class="price-row"><span class="price">$22,800</span></div><div class="meta"><span class="rating">★★★★☆ 4.7</span><span>已售 3.2K</span></div><div class="shop"><i class="fas fa-store"></i> Dyson 旗艦店</div></div>
+</div>
+<div class="product-card">
+<div class="img"><img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=300&h=250&fit=crop" alt=""><div class="badges"><span class="badge-tag" style="background:var(--primary)">熱賣</span></div></div>
+<div class="info"><h4>Nintendo Switch 2 OLED 主機組合包</h4><div class="price-row"><span class="price">$12,480</span></div><div class="meta"><span class="rating">★★★★★ 4.9</span><span>已售 15.8K</span></div><div class="shop"><i class="fas fa-store"></i> 任天堂台灣</div></div>
+</div>
+</div>
 </div>
 
-<div class="showcase">
-  <h2>AI 生成成果展示</h2>
-  <div class="showcase-grid">
-    <div class="showcase-item"><img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400" alt="案例"><div class="info"><h4>服飾品牌 — AI 模特兒照</h4><p>AI生成16種體型模特兒穿搭照，轉換率提升320%</p></div></div>
-    <div class="showcase-item"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400" alt="數據"><div class="info"><h4>數據儀表板</h4><p>即時掌握所有銷售渠道的關鍵數據</p></div></div>
-    <div class="showcase-item"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400" alt="分析"><div class="info"><h4>AI 競品分析</h4><p>自動追蹤競爭對手價格與銷售策略</p></div></div>
-  </div>
+<!-- Recommended for You -->
+<div class="recommend">
+<div class="section-header"><h2><i class="fas fa-heart" style="color:var(--primary)"></i> 為你推薦</h2><a href="#">查看更多 →</a></div>
+<div class="rec-grid">
+<div class="rec-card">
+<div class="img"><img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&h=250&fit=crop" alt=""></div>
+<div class="info"><h4>日本製陶瓷餐具組 四人份 16件</h4><div class="price">$2,380</div><div class="meta">★★★★★ 4.8 ｜ 已售 2.1K</div></div>
+</div>
+<div class="rec-card">
+<div class="img"><img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=250&fit=crop" alt=""></div>
+<div class="info"><h4>Sony WH-1000XM6 藍牙降噪耳機</h4><div class="price">$8,990</div><div class="meta">★★★★★ 4.9 ｜ 已售 5.6K</div></div>
+</div>
+<div class="rec-card">
+<div class="img"><img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=400&h=250&fit=crop" alt=""></div>
+<div class="info"><h4>Vans Old Skool 經典滑板鞋 黑白</h4><div class="price">$1,980</div><div class="meta">★★★★☆ 4.7 ｜ 已售 9.3K</div></div>
+</div>
+<div class="rec-card">
+<div class="img"><img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&h=250&fit=crop" alt=""></div>
+<div class="info"><h4>Polaroid Now+ 拍立得相機 復古白</h4><div class="price">$4,280</div><div class="meta">★★★★★ 4.8 ｜ 已售 1.8K</div></div>
+</div>
+</div>
+</div>
 </div>
 
-<div class="price-section">
-  <h2>此域名出售價格</h2>
-  <div class="price">NT$ 280萬</div>
-  <div class="sub">包含完整品牌網站、AI系統架構與數據資產</div>
-  <a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 域名購買諮詢" class="btn">📩 立即洽詢購買</a>
-</div>
+<div class="stats-strip"><div class="container"><div class="stats-row">
+<div><div class="num">500萬+</div><div class="label">商品數量</div></div>
+<div><div class="num">120萬+</div><div class="label">活躍賣家</div></div>
+<div><div class="num">2,800萬</div><div class="label">註冊會員</div></div>
+<div><div class="num">99.2%</div><div class="label">好評率</div></div>
+<div><div class="num">24hr</div><div class="label">到貨保證</div></div>
+</div></div></div>
 
-<div class="contact-section">
-  <h2>聯絡我們</h2>
-  <div class="email">📧 <a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 購買諮詢">superpay.vip@gmail.com</a></div>
-  <p>主旨請註明 market.com.tw，我們會盡快與您聯繫</p>
+<div class="brands"><div class="container">
+<div class="section-header"><h2><i class="fas fa-crown" style="color:var(--accent)"></i> 官方品牌旗艦</h2><a href="#" style="color:var(--primary);font-size:14px">查看全部 →</a></div>
+<div class="brand-grid">
+<div class="brand-item">Apple</div><div class="brand-item">Samsung</div><div class="brand-item">Sony</div><div class="brand-item">Nike</div><div class="brand-item">Dyson</div><div class="brand-item">UNIQLO</div><div class="brand-item">Panasonic</div><div class="brand-item">ASUS</div><div class="brand-item">L'Oréal</div><div class="brand-item">Adidas</div><div class="brand-item">MUJI</div><div class="brand-item">3M</div><div class="brand-item">Philips</div><div class="brand-item">IKEA</div><div class="brand-item">Bosch</div><div class="brand-item">更多品牌 →</div>
 </div>
+</div></div>
 
-<div class="footer">
-  <p>📧 購買此域名：<a href="mailto:superpay.vip@gmail.com?subject=market.com.tw 域名購買">superpay.vip@gmail.com</a></p>
-  <p style="margin-top:8px">© 2026 market.com.tw — 此網站為域名展示頁，本站並非實際營運中的商業網站</p>
+<div class="container"><div class="trust"><div class="trust-grid">
+<div class="trust-card"><i class="fas fa-shield-alt"></i><h3>正品保證</h3><p>全站商品100%正品保障<br>假一賠十，安心購物</p></div>
+<div class="trust-card"><i class="fas fa-truck"></i><h3>快速到貨</h3><p>台灣本島24小時到貨<br>超商取貨免運費</p></div>
+<div class="trust-card"><i class="fas fa-undo"></i><h3>七天鑑賞</h3><p>收到商品七天內<br>不滿意免費退換貨</p></div>
+<div class="trust-card"><i class="fas fa-headset"></i><h3>24H客服</h3><p>全年無休客服團隊<br>線上即時回覆您的問題</p></div>
+</div></div></div>
+
+<footer><div class="container">
+<div class="footer-grid">
+<div>
+<div class="footer-logo">Market<span>好市集</span></div>
+<p>Market好市集是台灣最大的綜合電商平台，集結超過120萬家優質賣家，提供超過500萬件商品。</p>
+<div class="download-btns">
+<a href="#" class="dl-btn"><i class="fab fa-apple"></i><div><div style="font-size:10px">Download on</div>App Store</div></a>
+<a href="#" class="dl-btn"><i class="fab fa-google-play"></i><div><div style="font-size:10px">GET IT ON</div>Google Play</div></a>
 </div>
+</div>
+<div><h4>買家服務</h4><ul><li><a href="#">購物指南</a></li><li><a href="#">付款方式</a></li><li><a href="#">配送方式</a></li><li><a href="#">退換貨政策</a></li><li><a href="#">訂單查詢</a></li></ul></div>
+<div><h4>賣家服務</h4><ul><li><a href="#">賣家中心</a></li><li><a href="#">開店指南</a></li><li><a href="#">廣告服務</a></li><li><a href="#">數據分析</a></li><li><a href="#">物流方案</a></li></ul></div>
+<div><h4>關於Market</h4><ul><li><a href="#">公司介紹</a></li><li><a href="#">加入我們</a></li><li><a href="#">媒體報導</a></li><li><a href="#">合作夥伴</a></li><li><a href="#">投資人關係</a></li></ul></div>
+<div><h4>聯繫我們</h4><ul><li><a href="#">客服信箱</a></li><li><a href="#">LINE@客服</a></li><li><a href="#">Facebook</a></li><li><a href="#">Instagram</a></li><li><a href="#">服務據點</a></li></ul></div>
+</div>
+<div class="footer-bottom">
+<p>© 2026 market.com.tw 好市集數位科技股份有限公司 ｜ 統一編號：91234567</p>
+<div class="footer-payments"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-jcb"></i><i class="fab fa-cc-amex"></i><i class="fab fa-apple-pay"></i><i class="fab fa-google-pay"></i><i class="fab fa-line"></i></div>
+<div class="footer-certs"><span>🔒 SSL安全加密</span><span>✓ PCI DSS認證</span><span>✓ 經濟部核准</span><span>✓ 消保會認證</span></div>
+</div>
+</div></footer>
+
+<div class="domain-sale-bar"><div class="container">
+<div><div class="domain">market<span>.com.tw</span></div><div class="msg">此網域正在出售中 — This domain is for sale</div></div>
+<a href="mailto:superpay.vip@gmail.com?subject=%E8%B3%BC%E8%B2%B7%E8%A9%A2%E5%95%8F%EF%BC%9Amarket.com.tw%20%E7%B6%B2%E5%9F%9F&body=%E6%82%A8%E5%A5%BD%EF%BC%8C%E6%88%91%E5%B0%8D%20market.com.tw%20%E9%80%99%E5%80%8B%E7%B6%B2%E5%9F%9F%E6%9C%89%E8%88%88%E8%B6%A3%EF%BC%8C%E8%AB%8B%E5%95%8F%E5%83%B9%E6%A0%BC%E5%92%8C%E8%BD%89%E8%AE%93%E7%B4%B0%E7%AF%80%E3%80%82" class="buy-btn"><i class="fas fa-envelope"></i> 聯繫購買</a>
+</div></div>
+
 </body>
 </html>

@@ -2,16 +2,43 @@
 /**
  * Admin - Products Management
  */
-require_once __DIR__ . '/../includes/db.php';
+session_start();
+require_once __DIR__ . '/../../includes/db.php';
 $admin = requireAdmin();
 
 $db = getDB();
 
-// Handle actions
-if (isset($_GET['action']) && isset($_GET['id'])) {
-    $id = intval($_GET['id']);
-    $action = $_GET['action'];
-    
+// Handle actions (POST only)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['id'])) {
+    if (!verifyCsrf()) {
+        http_response_code(403);
+        die('無效的請求令牌');
+    }
+
+    $id = intval($_POST['id']);
+    $action = $_POST['action'];
+
+    $allowedActions = ['approve', 'reject', 'delete'];
+    if (!in_array($action, $allowedActions, true)) {
+        $_SESSION['flash_error'] = '無效的操作';
+        header('Location: index.php', true, 303);
+        exit;
+    }
+
+    if ($id <= 0) {
+        $_SESSION['flash_error'] = '無效的產品 ID';
+        header('Location: index.php', true, 303);
+        exit;
+    }
+
+    $checkStmt = $db->prepare("SELECT id FROM products WHERE id = ?");
+    $checkStmt->execute([$id]);
+    if (!$checkStmt->fetch()) {
+        $_SESSION['flash_error'] = '產品不存在 (ID: ' . $id . ')';
+        header('Location: index.php', true, 303);
+        exit;
+    }
+
     try {
         if ($action === 'approve') {
             $db->prepare("UPDATE products SET status='active' WHERE id=?")->execute([$id]);
@@ -23,9 +50,14 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
             $db->prepare("DELETE FROM products WHERE id=?")->execute([$id]);
             logActivity($admin['id'], 'delete_product', "刪除產品 #{$id}");
         }
-        header('Location: index.php');
+        $_SESSION['flash_success'] = '操作成功';
+        header('Location: index.php', true, 303);
         exit;
-    } catch (Exception $e) {}
+    } catch (PDOException $e) {
+        $_SESSION['flash_error'] = '操作失敗，請稍後再試';
+        header('Location: index.php', true, 303);
+        exit;
+    }
 }
 
 // Pagination
@@ -36,19 +68,20 @@ $offset = ($page - 1) * $perPage;
 $status = $_GET['status'] ?? '';
 $where = "WHERE 1=1";
 $params = [];
-if ($status && in_array($status, ['draft', 'active', 'archived', 'rejected'])) {
+if ($status && in_array($status, ['draft', 'active', 'archived', 'rejected'], true)) {
     $where .= " AND p.status = ?";
     $params[] = $status;
 }
 
-$total = $db->query("SELECT COUNT(*) FROM products p $where")->fetchColumn();
+$countStmt = $db->prepare("SELECT COUNT(*) FROM products p $where");
+$countStmt->execute($params);
+$total = $countStmt->fetchColumn();
 $totalPages = ceil($total / $perPage);
 
 $sql = "SELECT p.*, u.store_name, u.email FROM products p JOIN users u ON p.user_id = u.id $where ORDER BY p.created_at DESC LIMIT ? OFFSET ?";
-$params[] = $perPage;
-$params[] = $offset;
+$queryParams = array_merge($params, [$perPage, $offset]);
 $stmt = $db->prepare($sql);
-$stmt->execute($params);
+$stmt->execute($queryParams);
 $products = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
@@ -57,17 +90,25 @@ $products = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>產品管理 — 管理後台 · AI 銷售員</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
+    <?php include __DIR__ . '/../../includes/header.php'; ?>
 
     <div class="container container-wide" style="padding-top:40px;padding-bottom:60px;">
         <div class="breadcrumb">
-            <a href="dashboard.php">管理後台</a>
+            <a href="../dashboard.php">管理後台</a>
             <span class="sep">›</span>
             <span>產品管理</span>
         </div>
+
+        <?php if (!empty($_SESSION['flash_error'])): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($_SESSION['flash_error']) ?></div>
+        <?php unset($_SESSION['flash_error']); endif; ?>
+
+        <?php if (!empty($_SESSION['flash_success'])): ?>
+        <div class="alert alert-success"><?= htmlspecialchars($_SESSION['flash_success']) ?></div>
+        <?php unset($_SESSION['flash_success']); endif; ?>
 
         <div class="page-header">
             <div>
@@ -106,17 +147,32 @@ $products = $stmt->fetchAll();
                         <td style="font-size:0.85rem;"><?= htmlspecialchars($p['store_name'] ?: $p['email']) ?></td>
                         <td>NT$ <?= number_format($p['price'], 0) ?></td>
                         <td><?= $p['views'] ?></td>
-                        <td><span class="badge badge-<?= $p['status'] ?>"><?= $p['status'] ?></span></td>
+                        <td><span class="badge badge-<?= htmlspecialchars($p['status']) ?>"><?= htmlspecialchars($p['status']) ?></span></td>
                         <td style="font-size:0.85rem;color:var(--text-dim);"><?= formatDate($p['created_at']) ?></td>
                         <td>
                             <div style="display:flex;gap:4px;">
                                 <?php if ($p['status'] === 'draft' || $p['status'] === 'rejected'): ?>
-                                <a href="?action=approve&id=<?= $p['id'] ?>" class="btn btn-primary btn-sm">✅ 通過</a>
+                                <form method="POST" style="display:inline;">
+                                    <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+                                    <input type="hidden" name="action" value="approve">
+                                    <input type="hidden" name="id" value="<?= $p['id'] ?>">
+                                    <button type="submit" class="btn btn-primary btn-sm">✅ 通過</button>
+                                </form>
                                 <?php endif; ?>
                                 <?php if ($p['status'] !== 'rejected'): ?>
-                                <a href="?action=reject&id=<?= $p['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('確定拒絕？')">❌ 拒絕</a>
+                                <form method="POST" style="display:inline;" onsubmit="return confirm('確定拒絕？')">
+                                    <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+                                    <input type="hidden" name="action" value="reject">
+                                    <input type="hidden" name="id" value="<?= $p['id'] ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm">❌ 拒絕</button>
+                                </form>
                                 <?php endif; ?>
-                                <a href="?action=delete&id=<?= $p['id'] ?>" class="btn btn-ghost btn-sm" onclick="return confirm('確定刪除？')">🗑️</a>
+                                <form method="POST" style="display:inline;" onsubmit="return confirm('確定刪除？')">
+                                    <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="id" value="<?= $p['id'] ?>">
+                                    <button type="submit" class="btn btn-ghost btn-sm">🗑️</button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -131,12 +187,12 @@ $products = $stmt->fetchAll();
         <?php if ($totalPages > 1): ?>
         <div style="text-align:center;margin-top:24px;display:flex;gap:8px;justify-content:center;">
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-            <a href="?page=<?= $i ?><?= $status ? '&status='.$status : '' ?>" class="btn btn-<?= $i === $page ? 'primary' : 'secondary' ?> btn-sm" style="min-width:40px;"><?= $i ?></a>
+            <a href="?page=<?= $i ?><?= $status ? '&status=' . htmlspecialchars(urlencode($status)) : '' ?>" class="btn btn-<?= $i === $page ? 'primary' : 'secondary' ?> btn-sm" style="min-width:40px;"><?= $i ?></a>
             <?php endfor; ?>
         </div>
         <?php endif; ?>
     </div>
 
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
+    <?php include __DIR__ . '/../../includes/footer.php'; ?>
 </body>
 </html>

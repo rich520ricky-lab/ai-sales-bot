@@ -7,22 +7,27 @@ $admin = requireAdmin();
 
 $db = getDB();
 
-// Stats
-$stats = [];
-$stats['total_users'] = $db->query("SELECT COUNT(*) FROM users")->fetchColumn();
-$stats['total_products'] = $db->query("SELECT COUNT(*) FROM products")->fetchColumn();
-$stats['active_products'] = $db->query("SELECT COUNT(*) FROM products WHERE status='active'")->fetchColumn();
-$stats['total_views'] = $db->query("SELECT SUM(views) FROM products")->fetchColumn() ?: 0;
-$stats['total_campaigns'] = $db->query("SELECT COUNT(*) FROM ad_campaigns")->fetchColumn();
+try {
+    // Stats
+    $stats = [];
+    $stats['total_users'] = $db->query("SELECT COUNT(*) FROM users")->fetchColumn();
+    $stats['total_products'] = $db->query("SELECT COUNT(*) FROM products")->fetchColumn();
+    $stats['active_products'] = $db->query("SELECT COUNT(*) FROM products WHERE status='active'")->fetchColumn();
+    $stats['total_views'] = $db->query("SELECT SUM(views) FROM products")->fetchColumn() ?: 0;
+    $stats['total_campaigns'] = $db->query("SELECT COUNT(*) FROM ad_campaigns")->fetchColumn();
 
-// Recent products
-$recentProducts = $db->query("SELECT p.*, u.store_name, u.email FROM products p JOIN users u ON p.user_id = u.id ORDER BY p.created_at DESC LIMIT 10")->fetchAll();
+    // Recent products
+    $recentProducts = $db->query("SELECT p.*, u.store_name, u.email FROM products p JOIN users u ON p.user_id = u.id ORDER BY p.created_at DESC LIMIT 10")->fetchAll();
 
-// Recent users
-$recentUsers = $db->query("SELECT * FROM users ORDER BY created_at DESC LIMIT 10")->fetchAll();
+    // Recent users
+    $recentUsers = $db->query("SELECT * FROM users ORDER BY created_at DESC LIMIT 10")->fetchAll();
 
-// Recent activity
-$recentActivity = $db->query("SELECT a.*, u.email, u.store_name FROM activity_log a LEFT JOIN users u ON a.user_id = u.id ORDER BY a.created_at DESC LIMIT 20")->fetchAll();
+    // Recent activity
+    $recentActivity = $db->query("SELECT a.*, u.email, u.store_name FROM activity_log a LEFT JOIN users u ON a.user_id = u.id ORDER BY a.created_at DESC LIMIT 20")->fetchAll();
+} catch (PDOException $e) {
+    http_response_code(500);
+    die('資料庫查詢失敗，請稍後再試。');
+}
 ?>
 <!DOCTYPE html>
 <html lang="zh-TW">
@@ -157,7 +162,7 @@ $recentActivity = $db->query("SELECT a.*, u.email, u.store_name FROM activity_lo
                             <td style="font-size:0.85rem;"><?= htmlspecialchars($a['store_name'] ?: $a['email'] ?: '訪客') ?></td>
                             <td><span class="badge badge-pending"><?= htmlspecialchars($a['action']) ?></span></td>
                             <td style="font-size:0.85rem;color:var(--text-muted);"><?= htmlspecialchars(mb_substr($a['details'] ?? '', 0, 40)) ?></td>
-                            <td style="font-size:0.8rem;color:var(--text-dim);"><?= $a['ip_address'] ?></td>
+                            <td style="font-size:0.8rem;color:var(--text-dim);"><?= htmlspecialchars($a['ip_address']) ?></td>
                             <td style="font-size:0.8rem;color:var(--text-dim);"><?= timeAgo($a['created_at']) ?></td>
                         </tr>
                         <?php endforeach; ?>

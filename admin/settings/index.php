@@ -2,22 +2,42 @@
 /**
  * Admin - Settings
  */
-require_once __DIR__ . '/../includes/db.php';
+session_start();
+require_once __DIR__ . '/../../includes/db.php';
 $admin = requireAdmin();
 
 $db = getDB();
 $saved = false;
+$errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $fields = ['site_name', 'site_description', 'admin_email', 'google_client_id', 'google_client_secret', 'ai_api_key', 'ai_model'];
-    
-    foreach ($fields as $key) {
-        $value = $_POST[$key] ?? '';
-        updateSetting($key, $value);
+    if (!verifyCsrf()) {
+        http_response_code(403);
+        die('無效的請求令牌');
     }
-    
-    $saved = true;
-    logActivity($admin['id'], 'update_settings', '更新系統設定');
+
+    $fields = ['site_name', 'site_description', 'admin_email', 'google_client_id', 'google_client_secret', 'ai_api_key', 'ai_model'];
+
+    $adminEmail = trim($_POST['admin_email'] ?? '');
+    if ($adminEmail !== '' && !filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = '管理員 Email 格式不正確';
+    }
+
+    $allowedModels = ['gpt-4o-mini', 'gpt-4o', 'gpt-4-turbo'];
+    $aiModel = $_POST['ai_model'] ?? '';
+    if ($aiModel !== '' && !in_array($aiModel, $allowedModels, true)) {
+        $errors[] = '無效的 AI 模型選擇';
+    }
+
+    if (empty($errors)) {
+        foreach ($fields as $key) {
+            $value = trim($_POST[$key] ?? '');
+            updateSetting($key, $value);
+        }
+
+        $saved = true;
+        logActivity($admin['id'], 'update_settings', '更新系統設定');
+    }
 }
 
 // Load current settings
@@ -33,10 +53,10 @@ while ($row = $stmt->fetch()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>系統設定 — 管理後台 · AI 銷售員</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
+    <?php include __DIR__ . '/../../includes/header.php'; ?>
 
     <div class="container container-narrow" style="padding-top:40px;padding-bottom:60px;">
         <div class="breadcrumb">
@@ -49,10 +69,20 @@ while ($row = $stmt->fetch()) {
             <h2>⚙️ 系統設定</h2>
             
             <?php if ($saved): ?>
-            <div class="alert alert-success">✅ 設定已儲存</div>
+            <div class="alert alert-success">設定已儲存</div>
+            <?php endif; ?>
+
+            <?php if (!empty($errors)): ?>
+            <div class="alert alert-danger">
+                <?php foreach ($errors as $err): ?>
+                <p><?= htmlspecialchars($err) ?></p>
+                <?php endforeach; ?>
+            </div>
             <?php endif; ?>
 
             <form method="POST">
+                <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+
                 <h3 style="font-size:1.1rem;margin-bottom:16px;color:var(--text-muted);">📌 基本設定</h3>
                 
                 <div class="form-group">
@@ -76,7 +106,7 @@ while ($row = $stmt->fetch()) {
                 <p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:16px;">
                     前往 <a href="https://console.cloud.google.com/apis/credentials" target="_blank" style="color:var(--primary-light);">Google Cloud Console</a> 
                     建立 OAuth 2.0 憑證，將授權重新導向 URI 設為：<br>
-                    <code style="background:var(--bg-input);padding:4px 8px;border-radius:4px;font-size:0.8rem;"><?= SITE_URL ?>/auth/google-callback.php</code>
+                    <code style="background:var(--bg-input);padding:4px 8px;border-radius:4px;font-size:0.8rem;"><?= htmlspecialchars(SITE_URL) ?>/auth/google-callback.php</code>
                 </p>
                 
                 <div class="form-group">
@@ -118,6 +148,6 @@ while ($row = $stmt->fetch()) {
         </div>
     </div>
 
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
+    <?php include __DIR__ . '/../../includes/footer.php'; ?>
 </body>
 </html>

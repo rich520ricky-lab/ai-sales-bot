@@ -1,9 +1,11 @@
 <?php
 /**
- * Seller Dashboard - 賣家銷售數據總覽
- * Shows sales stats, product performance, order trends, and campaign overview
+ * 管理 Dashboard - 管理者專用
+ * Includes everything from public dashboard + real buyer names + seller-specific data
+ * Requires admin login
  */
 require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/functions.php';
 $user = requireLogin();
 
 $db = getDB();
@@ -11,7 +13,6 @@ $userId = $user['id'];
 $isAdmin = ($user['role'] === 'admin');
 
 // For admin, show all data; for sellers, show only their own
-$userFilter = $isAdmin ? "" : "WHERE p.user_id = ? OR p.seller_id = ?";
 $userParams = $isAdmin ? [] : [$userId, $userId];
 
 // Overall stats
@@ -40,18 +41,18 @@ $stmt = $db->prepare($campaignQuery);
 $stmt->execute($userParams);
 $campaignStats = $stmt->fetch();
 
-// Top products by views
-$topProductsQuery = $isAdmin
-    ? "SELECT id, name, price, views, status FROM products ORDER BY views DESC LIMIT 5"
-    : "SELECT id, name, price, views, status FROM products WHERE (user_id = ? OR seller_id = ?) ORDER BY views DESC LIMIT 5";
-$stmt = $db->prepare($topProductsQuery);
+// All products (for product grid with QR codes)
+$allProductsQuery = $isAdmin
+    ? "SELECT p.*, u.store_name FROM products p LEFT JOIN users u ON p.user_id = u.id WHERE p.status='active' ORDER BY p.views DESC"
+    : "SELECT p.*, u.store_name FROM products p LEFT JOIN users u ON p.user_id = u.id WHERE p.status='active' AND (p.user_id = ? OR p.seller_id = ?) ORDER BY p.views DESC";
+$stmt = $db->prepare($allProductsQuery);
 $stmt->execute($userParams);
-$topProducts = $stmt->fetchAll();
+$allProducts = $stmt->fetchAll();
 
-// Recent orders
+// Recent orders (REAL buyer names for admin)
 $recentOrdersQuery = $isAdmin
-    ? "SELECT o.*, p.name as product_name FROM orders o JOIN products p ON o.product_id = p.id ORDER BY o.created_at DESC LIMIT 10"
-    : "SELECT o.*, p.name as product_name FROM orders o JOIN products p ON o.product_id = p.id WHERE (p.user_id = ? OR p.seller_id = ?) ORDER BY o.created_at DESC LIMIT 10";
+    ? "SELECT o.*, p.name as product_name FROM orders o JOIN products p ON o.product_id = p.id ORDER BY o.created_at DESC LIMIT 20"
+    : "SELECT o.*, p.name as product_name FROM orders o JOIN products p ON o.product_id = p.id WHERE (p.user_id = ? OR p.seller_id = ?) ORDER BY o.created_at DESC LIMIT 20";
 $stmt = $db->prepare($recentOrdersQuery);
 $stmt->execute($userParams);
 $recentOrders = $stmt->fetchAll();
@@ -100,7 +101,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>銷售總覽 — AI 銷售員</title>
+    <title>管理總覽 — AI 銷售員</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
@@ -155,6 +156,45 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
             gap: 24px;
             margin-bottom: 24px;
         }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .product-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+        .product-image {
+            width: 100%;
+            height: 140px;
+            background: var(--bg-darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-image img { max-width: 100%; max-height: 100%; object-fit: cover; }
+        .product-image .no-image { font-size: 2.5rem; opacity: 0.3; }
+        .product-body { padding: 12px; }
+        .product-name { font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .product-price { font-size: 1.1rem; font-weight: 700; color: var(--primary-light); }
+        .product-views-sm { font-size: 0.75rem; color: var(--text-dim); }
+        .qr-section {
+            text-align: center;
+            padding: 10px;
+            background: rgba(99,102,241,0.05);
+            border-top: 1px solid var(--border);
+        }
+        .qr-section img { width: 120px; height: 120px; border-radius: 6px; background: white; padding: 6px; }
+        .qr-label { font-size: 0.7rem; color: var(--primary-light); margin-top: 6px; }
         .order-table {
             width: 100%;
             border-collapse: collapse;
@@ -188,25 +228,20 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
             font-size: 0.75rem;
             font-weight: 500;
         }
-        .top-product-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .top-product-item:last-child { border-bottom: none; }
-        .top-product-name {
-            font-weight: 500;
-            color: var(--text);
-        }
-        .top-product-views {
-            font-size: 0.85rem;
-            color: var(--primary-light);
+        .admin-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 8px;
         }
         @media (max-width: 768px) {
             .charts-row { grid-template-columns: 1fr; }
             .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+            .product-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -216,10 +251,11 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
     <div class="container container-wide" style="padding-top:40px;padding-bottom:60px;">
         <div class="page-header">
             <div>
-                <h1>📊 銷售總覽</h1>
-                <p>歡迎回來，<?= htmlspecialchars($user['store_name'] ?: $user['email']) ?>！以下是您的銷售數據。</p>
+                <h1>📊 管理總覽 <?php if ($isAdmin): ?><span class="admin-badge">ADMIN</span><?php endif; ?></h1>
+                <p>歡迎回來，<?= htmlspecialchars($user['store_name'] ?: $user['email']) ?>！<?= $isAdmin ? '以下是全站數據。' : '以下是您的銷售數據。' ?></p>
             </div>
             <div style="display:flex;gap:8px;">
+                <a href="/public-dashboard.php" class="btn btn-secondary btn-sm">🌐 公開總覽</a>
                 <a href="products/list.php" class="btn btn-secondary btn-sm">📦 我的產品</a>
                 <a href="products/add.php" class="btn btn-primary btn-sm">➕ 上傳產品</a>
             </div>
@@ -276,74 +312,83 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
             </div>
         </div>
 
-        <!-- Top Products & Recent Orders -->
-        <div class="charts-row">
-            <!-- Top Products -->
-            <div class="chart-container">
-                <div class="chart-title">🏆 熱門產品 TOP 5</div>
-                <?php if (empty($topProducts)): ?>
-                    <p style="color:var(--text-muted);text-align:center;padding:20px;">尚無產品數據</p>
-                <?php else: ?>
-                    <?php foreach ($topProducts as $i => $tp): ?>
-                    <div class="top-product-item">
-                        <div>
-                            <span style="color:var(--text-dim);font-size:0.8rem;margin-right:8px;">#<?= $i + 1 ?></span>
-                            <span class="top-product-name"><?= htmlspecialchars(mb_substr($tp['name'], 0, 20)) ?></span>
-                            <span style="color:var(--text-dim);font-size:0.8rem;margin-left:8px;">NT$<?= number_format($tp['price']) ?></span>
-                        </div>
-                        <span class="top-product-views">👁 <?= number_format($tp['views']) ?></span>
+        <!-- All Products with QR Codes -->
+        <div class="chart-container" style="margin-bottom:24px;">
+            <div class="chart-title">📱 產品列表 — QR Code 掃碼付款</div>
+            <div class="product-grid">
+                <?php foreach ($allProducts as $product): ?>
+                <div class="product-card">
+                    <div class="product-image">
+                        <?php if ($product['image_path']): ?>
+                            <img src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+                        <?php else: ?>
+                            <span class="no-image">📦</span>
+                        <?php endif; ?>
                     </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-
-            <!-- Recent Orders -->
-            <div class="chart-container">
-                <div class="chart-title">🛒 最近訂單</div>
-                <?php if (empty($recentOrders)): ?>
-                    <p style="color:var(--text-muted);text-align:center;padding:20px;">尚無訂單</p>
-                <?php else: ?>
-                <div style="overflow-x:auto;">
-                    <table class="order-table">
-                        <thead>
-                            <tr>
-                                <th>產品</th>
-                                <th>買家</th>
-                                <th>金額</th>
-                                <th>狀態</th>
-                                <th>日期</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($recentOrders as $order): ?>
-                            <tr>
-                                <td><?= htmlspecialchars(mb_substr($order['product_name'], 0, 12)) ?></td>
-                                <td style="color:var(--text-muted);"><?= htmlspecialchars($order['buyer_name']) ?></td>
-                                <td style="font-weight:600;">NT$<?= number_format($order['amount']) ?></td>
-                                <td>
-                                    <span class="status-badge badge-<?= $order['status'] ?>">
-                                        <?= ['pending'=>'待付款','paid'=>'已付款','shipped'=>'已出貨','completed'=>'已完成','cancelled'=>'已取消','refunded'=>'已退款'][$order['status']] ?? $order['status'] ?>
-                                    </span>
-                                </td>
-                                <td style="font-size:0.8rem;color:var(--text-dim);"><?= date('m/d H:i', strtotime($order['created_at'])) ?></td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                    <div class="product-body">
+                        <div class="product-name"><?= htmlspecialchars($product['name']) ?></div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <span class="product-price">NT$<?= number_format($product['price']) ?></span>
+                            <span class="product-views-sm">👁 <?= number_format($product['views']) ?></span>
+                        </div>
+                    </div>
+                    <div class="qr-section">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=<?= urlencode(SITE_URL . '/api/pay.php?id=' . $product['id'] . '&amount=' . $product['price']) ?>" alt="QR Code">
+                        <div class="qr-label">📱 掃碼付款 NT$<?= number_format($product['price']) ?></div>
+                    </div>
                 </div>
-                <?php endif; ?>
+                <?php endforeach; ?>
             </div>
+        </div>
+
+        <!-- Recent Orders (REAL buyer names for admin) -->
+        <div class="chart-container">
+            <div class="chart-title">🛒 最近訂單（完整買家資訊）</div>
+            <?php if (empty($recentOrders)): ?>
+                <p style="color:var(--text-muted);text-align:center;padding:20px;">尚無訂單</p>
+            <?php else: ?>
+            <div style="overflow-x:auto;">
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>產品</th>
+                            <th>買家姓名</th>
+                            <th>電話</th>
+                            <th>數量</th>
+                            <th>金額</th>
+                            <th>狀態</th>
+                            <th>日期</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($recentOrders as $order): ?>
+                        <tr>
+                            <td><?= htmlspecialchars(mb_substr($order['product_name'], 0, 12)) ?></td>
+                            <td style="font-weight:500;"><?= htmlspecialchars($order['buyer_name']) ?></td>
+                            <td style="color:var(--text-muted);"><?= htmlspecialchars($order['buyer_phone'] ?? '-') ?></td>
+                            <td><?= $order['quantity'] ?></td>
+                            <td style="font-weight:600;">NT$<?= number_format($order['amount']) ?></td>
+                            <td>
+                                <span class="status-badge badge-<?= $order['status'] ?>">
+                                    <?= ['pending'=>'待付款','paid'=>'已付款','shipped'=>'已出貨','completed'=>'已完成','cancelled'=>'已取消','refunded'=>'已退款'][$order['status']] ?? $order['status'] ?>
+                                </span>
+                            </td>
+                            <td style="font-size:0.8rem;color:var(--text-dim);"><?= date('m/d H:i', strtotime($order['created_at'])) ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
 
     <script>
-    // Chart.js global config for dark theme
     Chart.defaults.color = '#8899b4';
     Chart.defaults.borderColor = '#1e2d4a';
 
     // Views Chart
-    const viewsCtx = document.getElementById('viewsChart').getContext('2d');
-    new Chart(viewsCtx, {
+    new Chart(document.getElementById('viewsChart').getContext('2d'), {
         type: 'line',
         data: {
             labels: <?= json_encode(array_map(fn($d) => date('m/d', strtotime($d)), $viewDates)) ?>,
@@ -355,23 +400,18 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
                 fill: true,
                 tension: 0.4,
                 pointBackgroundColor: '#6366f1',
-                pointRadius: 4,
-                pointHoverRadius: 6
+                pointRadius: 4
             }]
         },
         options: {
             responsive: true,
             plugins: { legend: { display: false } },
-            scales: {
-                y: { beginAtZero: true, grid: { color: '#1e2d4a' } },
-                x: { grid: { display: false } }
-            }
+            scales: { y: { beginAtZero: true, grid: { color: '#1e2d4a' } }, x: { grid: { display: false } } }
         }
     });
 
     // Revenue Chart
-    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-    new Chart(revenueCtx, {
+    new Chart(document.getElementById('revenueChart').getContext('2d'), {
         type: 'bar',
         data: {
             labels: <?= json_encode(array_map(fn($d) => date('m/d', strtotime($d)), $orderDates)) ?>,
@@ -387,16 +427,12 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
         options: {
             responsive: true,
             plugins: { legend: { display: false } },
-            scales: {
-                y: { beginAtZero: true, grid: { color: '#1e2d4a' } },
-                x: { grid: { display: false } }
-            }
+            scales: { y: { beginAtZero: true, grid: { color: '#1e2d4a' } }, x: { grid: { display: false } } }
         }
     });
 
     // Platform Pie Chart
-    const platformCtx = document.getElementById('platformChart').getContext('2d');
-    new Chart(platformCtx, {
+    new Chart(document.getElementById('platformChart').getContext('2d'), {
         type: 'doughnut',
         data: {
             labels: <?= json_encode(array_map(fn($p) => ucfirst($p['platform']), $platformData)) ?>,
@@ -406,17 +442,11 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
                 borderWidth: 0
             }]
         },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'bottom', labels: { padding: 16 } }
-            }
-        }
+        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 16 } } } }
     });
 
     // Order Status Chart
-    const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
-    new Chart(orderStatusCtx, {
+    new Chart(document.getElementById('orderStatusChart').getContext('2d'), {
         type: 'doughnut',
         data: {
             labels: <?= json_encode(array_map(fn($s) => ['pending'=>'待付款','paid'=>'已付款','shipped'=>'已出貨','completed'=>'已完成','cancelled'=>'已取消','refunded'=>'已退款'][$s['status']] ?? $s['status'], $orderStatusData)) ?>,
@@ -426,12 +456,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
                 borderWidth: 0
             }]
         },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'bottom', labels: { padding: 16 } }
-            }
-        }
+        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { padding: 16 } } } }
     });
     </script>
 </body>

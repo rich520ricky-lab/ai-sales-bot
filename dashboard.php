@@ -66,7 +66,7 @@ if ($isAdmin && $marketDb) {
     $productOffset = ($productPage - 1) * $perPage;
     $lim = intval($perPage);
     $pOff = intval($productOffset);
-    $stmt = $marketDb->query("SELECT id, title as name, price, image_url as image_path, source FROM products WHERE image_url IS NOT NULL AND image_url != '' ORDER BY id DESC LIMIT $lim OFFSET $pOff");
+    $stmt = $marketDb->query("SELECT id, title as name, price, image_url as image_path, product_url, source FROM products WHERE image_url IS NOT NULL AND image_url != '' ORDER BY id DESC LIMIT $lim OFFSET $pOff");
     $allProducts = $stmt->fetchAll();
 } else {
     $allProductsQuery = "SELECT p.*, u.store_name FROM products p LEFT JOIN users u ON p.user_id = u.id WHERE p.status='active' AND (p.user_id = ? OR p.seller_id = ?) ORDER BY p.views DESC";
@@ -378,6 +378,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
             <div class="product-grid">
                 <?php foreach ($allProducts as $product): ?>
                 <div class="product-card">
+                    <a href="<?= htmlspecialchars($product['product_url'] ?? '#') ?>" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
                     <div class="product-image">
                         <?php if (!empty($product['image_path'])): ?>
                             <img src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" loading="lazy">
@@ -396,6 +397,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
                             <?php endif; ?>
                         </div>
                     </div>
+                    </a>
                     <div class="qr-section">
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?= urlencode(SITE_URL . '/api/pay.php?id=' . $product['id'] . '&amount=' . $product['price']) ?>" alt="QR Code" loading="lazy">
                         <div class="qr-label">📱 掃碼付款 NT$<?= number_format($product['price']) ?></div>

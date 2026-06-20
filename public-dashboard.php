@@ -57,7 +57,7 @@ $marketProducts = [];
 if ($marketDb) {
     $limit = intval($perPage);
     $off = intval($offset);
-    $stmt = $marketDb->query("SELECT id, title, price, original_price, image_url, source, category, rating, review_count, sales_count FROM products WHERE image_url IS NOT NULL AND image_url != '' ORDER BY id DESC LIMIT $limit OFFSET $off");
+    $stmt = $marketDb->query("SELECT id, title, price, original_price, image_url, product_url, source, category, rating, review_count, sales_count FROM products WHERE image_url IS NOT NULL AND image_url != '' ORDER BY id DESC LIMIT $limit OFFSET $off");
     $marketProducts = $stmt->fetchAll();
 }
 
@@ -272,6 +272,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
         <div class="product-grid">
             <?php foreach ($marketProducts as $product): ?>
             <div class="product-card">
+                <a href="<?= htmlspecialchars($product['product_url'] ?? '#') ?>" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
                 <div class="product-image">
                     <?php if ($product['image_url']): ?>
                         <img src="<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['title']) ?>" loading="lazy">
@@ -291,6 +292,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
                         <span class="product-source"><?= htmlspecialchars($product['source']) ?></span>
                     </div>
                 </div>
+                </a>
                 <div class="qr-section">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?= urlencode(SITE_URL . '/api/pay.php?id=' . $product['id'] . '&amount=' . $product['price']) ?>" alt="QR Code" loading="lazy">
                     <div class="qr-label">📱 掃碼付款 NT$<?= number_format($product['price']) ?></div>

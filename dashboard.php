@@ -41,13 +41,48 @@ $stmt = $db->prepare($campaignQuery);
 $stmt->execute($userParams);
 $campaignStats = $stmt->fetch();
 
+// Connect to market_db for admin product view
+$marketDb = null;
+if ($isAdmin) {
+    try {
+        $marketDb = new PDO(
+            'mysql:host=127.0.0.1;dbname=market_db;charset=utf8mb4',
+            DB_USER, DB_PASS,
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+        );
+    } catch (PDOException $e) { $marketDb = null; }
+}
+
+// Pagination for products
+$perPage = 24;
+$productPage = max(1, intval($_GET['ppage'] ?? 1));
+
 // All products (for product grid with QR codes)
-$allProductsQuery = $isAdmin
-    ? "SELECT p.*, u.store_name FROM products p LEFT JOIN users u ON p.user_id = u.id WHERE p.status='active' ORDER BY p.views DESC"
-    : "SELECT p.*, u.store_name FROM products p LEFT JOIN users u ON p.user_id = u.id WHERE p.status='active' AND (p.user_id = ? OR p.seller_id = ?) ORDER BY p.views DESC";
-$stmt = $db->prepare($allProductsQuery);
-$stmt->execute($userParams);
-$allProducts = $stmt->fetchAll();
+if ($isAdmin && $marketDb) {
+    $stmt = $marketDb->query("SELECT COUNT(*) as cnt FROM products WHERE image_url IS NOT NULL AND image_url != ''");
+    $totalProductCount = $stmt->fetch()['cnt'];
+    $totalProductPages = max(1, ceil($totalProductCount / $perPage));
+    $productPage = min($productPage, $totalProductPages);
+    $productOffset = ($productPage - 1) * $perPage;
+    $lim = intval($perPage);
+    $pOff = intval($productOffset);
+    $stmt = $marketDb->query("SELECT id, title as name, price, image_url as image_path, source FROM products WHERE image_url IS NOT NULL AND image_url != '' ORDER BY id DESC LIMIT $lim OFFSET $pOff");
+    $allProducts = $stmt->fetchAll();
+} else {
+    $allProductsQuery = "SELECT p.*, u.store_name FROM products p LEFT JOIN users u ON p.user_id = u.id WHERE p.status='active' AND (p.user_id = ? OR p.seller_id = ?) ORDER BY p.views DESC";
+    $stmt = $db->prepare($allProductsQuery);
+    $stmt->execute($userParams);
+    $allProducts = $stmt->fetchAll();
+    $totalProductCount = count($allProducts);
+    $totalProductPages = 1;
+}
+
+// Comments from market_db (for admin)
+$comments = [];
+if ($isAdmin && $marketDb) {
+    $stmt = $marketDb->query("SELECT user_name, user_avatar, content, image_url, likes, created_at FROM comments WHERE is_deleted=0 ORDER BY created_at DESC LIMIT 8");
+    $comments = $stmt->fetchAll();
+}
 
 // Recent orders (REAL buyer names for admin)
 $recentOrdersQuery = $isAdmin
@@ -312,15 +347,40 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
             </div>
         </div>
 
-        <!-- All Products with QR Codes -->
+        <!-- Comments Section (Admin only) -->
+        <?php if ($isAdmin && !empty($comments)): ?>
         <div class="chart-container" style="margin-bottom:24px;">
-            <div class="chart-title">📱 產品列表 — QR Code 掃碼付款</div>
+            <div class="chart-title">💬 最新用戶評論（來自 market.com.tw）</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:12px;">
+                <?php foreach ($comments as $comment): ?>
+                <div style="background:var(--bg-darker);border-radius:8px;padding:12px;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                        <img src="<?= htmlspecialchars($comment['user_avatar'] ?: '') ?>" style="width:32px;height:32px;border-radius:50%;" alt="">
+                        <div>
+                            <div style="font-weight:600;font-size:0.8rem;"><?= htmlspecialchars($comment['user_name']) ?></div>
+                            <div style="font-size:0.7rem;color:var(--text-dim);"><?= timeAgo($comment['created_at']) ?></div>
+                        </div>
+                    </div>
+                    <?php if ($comment['image_url']): ?>
+                        <img src="<?= htmlspecialchars($comment['image_url']) ?>" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-bottom:6px;" loading="lazy" alt="">
+                    <?php endif; ?>
+                    <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;"><?= htmlspecialchars($comment['content']) ?></div>
+                    <div style="font-size:0.7rem;color:var(--text-dim);margin-top:4px;">❤️ <?= $comment['likes'] ?></div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <!-- All Products with QR Codes (Paginated) -->
+        <div class="chart-container" style="margin-bottom:24px;">
+            <div class="chart-title">📱 產品列表 — QR Code 掃碼付款 <span style="font-size:0.8rem;color:var(--text-dim);font-weight:400;margin-left:8px;">共 <?= number_format($totalProductCount) ?> 件 | 第 <?= $productPage ?> / <?= number_format($totalProductPages) ?> 頁</span></div>
             <div class="product-grid">
                 <?php foreach ($allProducts as $product): ?>
                 <div class="product-card">
                     <div class="product-image">
-                        <?php if ($product['image_path']): ?>
-                            <img src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+                        <?php if (!empty($product['image_path'])): ?>
+                            <img src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" loading="lazy">
                         <?php else: ?>
                             <span class="no-image">📦</span>
                         <?php endif; ?>
@@ -329,16 +389,44 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
                         <div class="product-name"><?= htmlspecialchars($product['name']) ?></div>
                         <div style="display:flex;justify-content:space-between;align-items:center;">
                             <span class="product-price">NT$<?= number_format($product['price']) ?></span>
-                            <span class="product-views-sm">👁 <?= number_format($product['views']) ?></span>
+                            <?php if (!empty($product['source'])): ?>
+                                <span style="font-size:0.65rem;color:var(--text-dim);background:rgba(99,102,241,0.1);padding:2px 6px;border-radius:8px;"><?= htmlspecialchars($product['source']) ?></span>
+                            <?php elseif (isset($product['views'])): ?>
+                                <span class="product-views-sm">👁 <?= number_format($product['views']) ?></span>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="qr-section">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=<?= urlencode(SITE_URL . '/api/pay.php?id=' . $product['id'] . '&amount=' . $product['price']) ?>" alt="QR Code">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?= urlencode(SITE_URL . '/api/pay.php?id=' . $product['id'] . '&amount=' . $product['price']) ?>" alt="QR Code" loading="lazy">
                         <div class="qr-label">📱 掃碼付款 NT$<?= number_format($product['price']) ?></div>
                     </div>
                 </div>
                 <?php endforeach; ?>
             </div>
+            <!-- Pagination -->
+            <?php if ($totalProductPages > 1): ?>
+            <nav style="display:flex;justify-content:center;gap:4px;margin-top:16px;flex-wrap:wrap;">
+                <?php if ($productPage > 1): ?>
+                    <a href="?ppage=1" style="display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;border-radius:8px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);text-decoration:none;font-size:0.85rem;">«</a>
+                    <a href="?ppage=<?= $productPage - 1 ?>" style="display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;border-radius:8px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);text-decoration:none;font-size:0.85rem;">‹</a>
+                <?php endif; ?>
+                <?php
+                $startP = max(1, $productPage - 3);
+                $endP = min($totalProductPages, $productPage + 3);
+                for ($i = $startP; $i <= $endP; $i++):
+                ?>
+                    <?php if ($i == $productPage): ?>
+                        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;border-radius:8px;background:var(--primary);color:white;font-size:0.85rem;font-weight:600;"><?= $i ?></span>
+                    <?php else: ?>
+                        <a href="?ppage=<?= $i ?>" style="display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;border-radius:8px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);text-decoration:none;font-size:0.85rem;"><?= $i ?></a>
+                    <?php endif; ?>
+                <?php endfor; ?>
+                <?php if ($productPage < $totalProductPages): ?>
+                    <a href="?ppage=<?= $productPage + 1 ?>" style="display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;border-radius:8px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);text-decoration:none;font-size:0.85rem;">›</a>
+                    <a href="?ppage=<?= $totalProductPages ?>" style="display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;border-radius:8px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);text-decoration:none;font-size:0.85rem;">»</a>
+                <?php endif; ?>
+            </nav>
+            <?php endif; ?>
         </div>
 
         <!-- Recent Orders (REAL buyer names for admin) -->

@@ -10,6 +10,9 @@ $currentUser = getCurrentUser();
         <button class="mobile-menu-btn" aria-label="選單">☰</button>
         <nav class="nav-links">
             <a href="/" class="<?= basename($_SERVER['PHP_SELF']) === 'index.php' ? 'active' : '' ?>">首頁</a>
+            <?php if ($currentUser): ?>
+            <a href="/dashboard.php" class="<?= basename($_SERVER['PHP_SELF']) === 'dashboard.php' ? 'active' : '' ?>">📊 銷售總覽</a>
+            <?php endif; ?>
             <a href="/products/list.php">產品列表</a>
             <a href="/products/add.php">上傳產品</a>
             <?php if ($currentUser && $currentUser['role'] === 'admin'): ?>
@@ -24,6 +27,7 @@ $currentUser = getCurrentUser();
                     <span style="font-size:0.9rem;"><?= htmlspecialchars($currentUser['store_name'] ?: $currentUser['email']) ?></span>
                 </div>
                 <div class="user-dropdown-menu">
+                    <a href="/dashboard.php">📊 銷售總覽</a>
                     <a href="/products/list.php">📦 我的產品</a>
                     <a href="/products/add.php">➕ 上傳產品</a>
                     <?php if ($currentUser['role'] === 'admin'): ?>

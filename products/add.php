@@ -84,6 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 }
                 
                 logActivity($user['id'], 'create_product', "新增產品: {$name}");
+                // 觸發同步到 market_db
+                exec("php " . __DIR__ . "/../cron/sync_to_market.php > /dev/null 2>&1 &");
                 header('Location: view.php?id=' . $productId . '&created=1');
             }
             exit;

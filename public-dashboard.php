@@ -9,36 +9,22 @@ require_once __DIR__ . '/includes/functions.php';
 
 $db = getDB();
 
-// Also connect to market_db for products & comments
-try {
-    $marketDb = new PDO(
-        'mysql:host=127.0.0.1;dbname=market_db;charset=utf8mb4',
-        DB_USER, DB_PASS,
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
-    );
-} catch (PDOException $e) {
-    $marketDb = null;
-}
-
 // Pagination settings
 $perPage = 24;
 $page = max(1, intval($_GET['page'] ?? 1));
 $offset = ($page - 1) * $perPage;
 
-// Get total products from market_db
-$totalMarketProducts = 0;
-if ($marketDb) {
-    $stmt = $marketDb->query("SELECT COUNT(*) as cnt FROM products WHERE image_url IS NOT NULL AND image_url != ''");
-    $totalMarketProducts = $stmt->fetch()['cnt'];
-}
+// Get total products with images
+$stmt = $db->query("SELECT COUNT(*) as cnt FROM products WHERE image_path IS NOT NULL AND image_path != '' AND status='active'");
+$totalProductsWithImages = $stmt->fetch()['cnt'];
 
-$totalPages = max(1, ceil($totalMarketProducts / $perPage));
+$totalPages = max(1, ceil($totalProductsWithImages / $perPage));
 $page = min($page, $totalPages);
 $offset = ($page - 1) * $perPage;
 
-// Site-wide stats (from ai_salesbot)
+// Site-wide stats
 $stmt = $db->query("SELECT COUNT(*) as total FROM products WHERE status='active'");
-$localProducts = $stmt->fetch()['total'];
+$totalProducts = $stmt->fetch()['total'];
 
 $stmt = $db->query("SELECT COUNT(*) as total, SUM(amount) as revenue FROM orders");
 $orderStats = $stmt->fetch();
@@ -46,29 +32,19 @@ $totalOrders = $orderStats['total'] ?: 0;
 $totalRevenue = $orderStats['revenue'] ?: 0;
 
 $stmt = $db->query("SELECT SUM(views) as total FROM products WHERE status='active'");
-$localViews = $stmt->fetch()['total'] ?: 0;
+$totalViews = $stmt->fetch()['total'] ?: 0;
 
-// Combine stats
-$totalProducts = $totalMarketProducts + $localProducts;
-$totalViews = $localViews + ($totalMarketProducts * 3); // estimated views
+// Get products (current page)
+$limit = intval($perPage);
+$off = intval($offset);
+$stmt = $db->query("SELECT id, name, price, image_path, category FROM products WHERE status='active' ORDER BY id DESC LIMIT $limit OFFSET $off");
+$marketProducts = $stmt->fetchAll();
 
-// Get products from market_db (current page)
-$marketProducts = [];
-if ($marketDb) {
-    $limit = intval($perPage);
-    $off = intval($offset);
-    $stmt = $marketDb->query("SELECT id, title, price, original_price, image_url, product_url, source, category, rating, review_count, sales_count FROM products WHERE image_url IS NOT NULL AND image_url != '' ORDER BY id DESC LIMIT $limit OFFSET $off");
-    $marketProducts = $stmt->fetchAll();
-}
+// Recent comments
+$stmt = $db->query("SELECT user_name, user_avatar, content, image_url, likes, created_at FROM comments WHERE is_deleted=0 ORDER BY created_at DESC LIMIT 12");
+$comments = $stmt->fetchAll();
 
-// Recent comments from market_db
-$comments = [];
-if ($marketDb) {
-    $stmt = $marketDb->query("SELECT user_name, user_avatar, content, image_url, likes, created_at FROM comments WHERE is_deleted=0 ORDER BY created_at DESC LIMIT 12");
-    $comments = $stmt->fetchAll();
-}
-
-// Recent orders from ai_salesbot (masked names)
+// Recent orders (masked names)
 $stmt = $db->query("SELECT o.*, p.name as product_name FROM orders o JOIN products p ON o.product_id = p.id ORDER BY o.created_at DESC LIMIT 10");
 $recentOrders = $stmt->fetchAll();
 
@@ -76,12 +52,9 @@ $recentOrders = $stmt->fetchAll();
 $stmt = $db->query("SELECT DATE(created_at) as order_date, COUNT(*) as order_count, SUM(amount) as daily_revenue FROM orders WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 14 DAY) GROUP BY DATE(created_at) ORDER BY order_date ASC");
 $dailyOrders = $stmt->fetchAll();
 
-// Categories from market_db
-$categories = [];
-if ($marketDb) {
-    $stmt = $marketDb->query("SELECT name, icon FROM categories WHERE id > 1 ORDER BY sort_order");
-    $categories = $stmt->fetchAll();
-}
+// Categories
+$stmt = $db->query("SELECT name, icon FROM categories WHERE id > 1 ORDER BY sort_order");
+$categories = $stmt->fetchAll();
 
 // Mask buyer name: "陳志明" -> "陳XX"
 function maskBuyerName($name) {
@@ -100,7 +73,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>營運總覽 — AI 銷售員 QR Code 付款平台</title>
+    <name>營運總覽 — AI 銷售員 QR Code 付款平台</name>
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
@@ -112,7 +85,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
         .pub-stat-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow); }
         .pub-stat-value { font-size: 1.5rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .pub-stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
-        .section-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+        .section-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; color: var(--text); display: flex; align-items: center; gap: 8px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px; }
         .product-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: var(--transition); }
         .product-card:hover { border-color: var(--primary); box-shadow: var(--shadow); transform: translateY(-2px); }
@@ -130,7 +103,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
         .qr-label { font-size: 0.7rem; color: var(--primary-light); margin-top: 4px; font-weight: 500; }
         .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
         .chart-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
-        .chart-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 12px; color: var(--text); }
+        .chart-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 12px; color: var(--text); }
         /* Comments */
         .comment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; margin-bottom: 28px; }
         .comment-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; transition: var(--transition); }
@@ -235,17 +208,17 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
         <!-- Charts -->
         <div class="charts-row">
             <div class="chart-container">
-                <div class="chart-title">📈 每日交易量（近14天）</div>
+                <div class="chart-name">📈 每日交易量（近14天）</div>
                 <canvas id="ordersChart" height="180"></canvas>
             </div>
             <div class="chart-container">
-                <div class="chart-title">💰 每日營收（近14天）</div>
+                <div class="chart-name">💰 每日營收（近14天）</div>
                 <canvas id="revenueChart" height="180"></canvas>
             </div>
         </div>
 
         <!-- User Comments Section -->
-        <h2 class="section-title">💬 最新用戶評論</h2>
+        <h2 class="section-name">💬 最新用戶評論</h2>
         <div class="comment-grid">
             <?php foreach ($comments as $comment): ?>
             <div class="comment-card">
@@ -256,8 +229,8 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
                         <div class="comment-time"><?= timeAgo($comment['created_at']) ?></div>
                     </div>
                 </div>
-                <?php if ($comment['image_url']): ?>
-                    <img class="comment-image" src="<?= htmlspecialchars($comment['image_url']) ?>" alt="" loading="lazy">
+                <?php if ($comment['image_path']): ?>
+                    <img class="comment-image" src="<?= htmlspecialchars($comment['image_path']) ?>" alt="" loading="lazy">
                 <?php endif; ?>
                 <div class="comment-content"><?= htmlspecialchars($comment['content']) ?></div>
                 <div class="comment-likes">❤️ <?= $comment['likes'] ?> 個讚</div>
@@ -266,30 +239,29 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
         </div>
 
         <!-- Products with QR Codes (Paginated) -->
-        <h2 class="section-title">📱 所有商品 — 掃碼即可付款 <span style="font-size:0.8rem;color:var(--text-dim);font-weight:400;">共 <?= number_format($totalMarketProducts) ?> 件</span></h2>
+        <h2 class="section-name">📱 所有商品 — 掃碼即可付款 <span style="font-size:0.8rem;color:var(--text-dim);font-weight:400;">共 <?= number_format($totalProducts) ?> 件</span></h2>
         <div class="page-info">第 <?= $page ?> 頁 / 共 <?= number_format($totalPages) ?> 頁</div>
 
         <div class="product-grid">
             <?php foreach ($marketProducts as $product): ?>
             <div class="product-card">
-                <a href="<?= htmlspecialchars($product['product_url'] ?? '#') ?>" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">
+                <a href="products/view.php?id=<?= $product['id'] ?>" style="text-decoration:none;color:inherit;display:block;">
                 <div class="product-image">
-                    <?php if ($product['image_url']): ?>
-                        <img src="<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['title']) ?>" loading="lazy">
+                    <?php if ($product['image_path']): ?>
+                        <img src="<?= htmlspecialchars($product['image_path']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" loading="lazy">
                     <?php else: ?>
                         <span class="no-image">📦</span>
                     <?php endif; ?>
                 </div>
                 <div class="product-body">
-                    <div class="product-name"><?= htmlspecialchars($product['title']) ?></div>
+                    <div class="product-name"><?= htmlspecialchars($product['name']) ?></div>
                     <div class="product-meta">
                         <div>
                             <span class="product-price">NT$<?= number_format($product['price']) ?></span>
-                            <?php if ($product['original_price'] && $product['original_price'] > $product['price']): ?>
-                                <span class="product-original">NT$<?= number_format($product['original_price']) ?></span>
-                            <?php endif; ?>
                         </div>
-                        <span class="product-source"><?= htmlspecialchars($product['source']) ?></span>
+                        <?php if (!empty($product['category'])): ?>
+                            <span class="product-source"><?= htmlspecialchars($product['category']) ?></span>
+                        <?php endif; ?>
                     </div>
                 </div>
                 </a>
@@ -337,7 +309,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
 
         <!-- Recent Orders (masked names) -->
         <div class="chart-container" style="margin-bottom:28px;">
-            <div class="chart-title">🛒 最近交易紀錄</div>
+            <div class="chart-name">🛒 最近交易紀錄</div>
             <?php if (!empty($recentOrders)): ?>
             <div style="overflow-x:auto;">
                 <table class="order-table">

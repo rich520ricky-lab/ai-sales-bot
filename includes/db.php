@@ -3,14 +3,17 @@
  * AI Salesbot - Database & Core Configuration
  */
 
+// Load utility functions
+require_once __DIR__ . '/functions.php';
+
 // Database
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'ai_salesbot');
-define('DB_USER', 'ai_salesbot');
-define('DB_PASS', 'Ricky520!');
+define('DB_HOST', '127.0.0.1');
+define('DB_NAME', 'market_db');
+define('DB_USER', 'root');
+define('DB_PASS', 'Uu88uu88!');
 
 // Site
-define('SITE_URL', 'https://sale.aiceox.com');
+define('SITE_URL', 'https://sale.market.com.tw');
 define('SITE_NAME', 'AI 銷售員');
 define('UPLOAD_PATH', __DIR__ . '/../uploads');
 define('UPLOAD_URL', SITE_URL . '/uploads');

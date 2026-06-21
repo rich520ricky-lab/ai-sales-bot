@@ -204,7 +204,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
         <div class="product-grid">
             <?php foreach ($marketProducts as $p): ?>
             <div class="product-card">
-                <a href="products/view.php?id=<?= $p['id'] ?>" style="text-decoration:none;color:inherit;display:block;">
+                <a href="products/detail.php?id=<?= $p['id'] ?>" style="text-decoration:none;color:inherit;display:block;">
                 <div class="product-image">
                     <?php if (!empty($p['image_path'])): ?>
                         <img src="<?= htmlspecialchars($p['image_path'] ?? '') ?>" alt="<?= htmlspecialchars($p['name'] ?? '') ?>" loading="lazy">

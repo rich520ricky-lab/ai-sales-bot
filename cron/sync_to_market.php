@@ -1,12 +1,18 @@
 <?php
-// 同步購買紀錄為用戶評論
-// 當 sale.market.com.tw 有新訂單時，自動產生購買評論
-// 資料庫已共用 market_db，不需跨庫同步商品
+// 雙向同步腳本 (sale.market.com.tw ↔ www.market.com.tw)
+// 
+// 架構: 兩站共用 market_db，商品資料自動一致
+// 本腳本處理:
+// 1. 訂單 → 購買評論同步
+// 2. 確保 image_path 格式一致
+// 3. 確保上傳目錄 symlink 存在
 
 define('DB_HOST', '127.0.0.1');
 define('DB_USER', 'root');
 define('DB_PASS', 'Uu88uu88!');
 define('SITE_URL', 'https://sale.market.com.tw');
+define('SALE_UPLOADS', '/www/wwwroot/sale.market.com.tw/uploads/products');
+define('MARKET_UPLOADS_LINK', '/www/wwwroot/www.market.com.tw/uploads/products');
 
 $opts = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC];
 
@@ -17,9 +23,9 @@ try {
     exit(1);
 }
 
-echo "[SYNC] Starting order-to-comment sync at " . date('Y-m-d H:i:s') . "\n";
+echo "[SYNC] Starting bidirectional sync at " . date('Y-m-d H:i:s') . "\n";
 
-// Sync orders as purchase comments
+// === 1. Order → Comment sync ===
 $stmt = $db->query("SELECT o.id, o.buyer_name, o.amount, o.created_at, p.name as product_name 
     FROM orders o 
     JOIN products p ON o.product_id = p.id 
@@ -50,6 +56,30 @@ foreach ($recentOrders as $order) {
     ]);
     $commentsSynced++;
 }
-
 echo "[SYNC] Comments: {$commentsSynced} new purchase reviews synced\n";
+
+// === 2. Ensure image_path consistency ===
+// Fix any legacy paths (e.g., ../uploads/products/xxx.jpg → uploads/products/xxx.jpg)
+$stmt = $db->query("SELECT id, image_path FROM products WHERE image_path LIKE '../%'");
+$fixedPaths = 0;
+while ($row = $stmt->fetch()) {
+    $newPath = preg_replace('/^\.\.\//', '', $row['image_path']);
+    $db->prepare("UPDATE products SET image_path = ? WHERE id = ?")->execute([$newPath, $row['id']]);
+    $fixedPaths++;
+}
+if ($fixedPaths > 0) {
+    echo "[SYNC] Fixed {$fixedPaths} legacy image paths\n";
+}
+
+// === 3. Ensure uploads symlink exists ===
+if (!is_link(MARKET_UPLOADS_LINK) && is_dir(SALE_UPLOADS)) {
+    @symlink(SALE_UPLOADS, MARKET_UPLOADS_LINK);
+    echo "[SYNC] Created uploads symlink for www.market.com.tw\n";
+}
+
+// === 4. Stats ===
+$productCount = $db->query("SELECT COUNT(*) FROM products WHERE status='active'")->fetchColumn();
+$commentCount = $db->query("SELECT COUNT(*) FROM comments WHERE is_deleted=0")->fetchColumn();
+$orderCount = $db->query("SELECT COUNT(*) FROM orders")->fetchColumn();
+echo "[SYNC] Stats: {$productCount} active products, {$commentCount} comments, {$orderCount} orders\n";
 echo "[SYNC] Complete at " . date('Y-m-d H:i:s') . "\n";

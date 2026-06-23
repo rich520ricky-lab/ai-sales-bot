@@ -30,7 +30,7 @@ $totalViews = $stmt->fetch()['total'] ?: 0;
 
 $limit = intval($perPage);
 $off = intval($offset);
-$stmt = $db->query("SELECT id, name, price, image_path, category FROM products WHERE status='active' ORDER BY id DESC LIMIT $limit OFFSET $off");
+$stmt = $db->query("SELECT id, name, title, price, image_path, image_url, product_url, source, category FROM products WHERE status='active' ORDER BY id DESC LIMIT $limit OFFSET $off");
 $marketProducts = $stmt->fetchAll();
 
 $stmt = $db->query("SELECT user_name, user_avatar, content, image_url, likes, created_at FROM comments WHERE is_deleted=0 ORDER BY created_at DESC LIMIT 12");
@@ -58,12 +58,15 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <name>AI 銷售員 — 台灣賣家專屬行銷平台</name>
+    <title>AI 銷售員 — 台灣賣家專屬行銷平台</title>
     <meta name="description" content="台灣賣家專屬！一鍵上傳產品，AI 自動產生銷售文案、產品照片、QR Code 銷售碼，還能投放廣告到各大平台。">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><defs><linearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22><stop offset=%220%25%22 stop-color=%22%236366f1%22/><stop offset=%22100%25%22 stop-color=%22%23a855f7%22/></linearGradient></defs><rect rx=%2220%22 width=%22100%22 height=%22100%22 fill=%22url(%23g)%22/><path d=%22M30 65V40a20 20 0 0140 0v25%22 fill=%22none%22 stroke=%22white%22 stroke-width=%226%22 stroke-linecap=%22round%22/><circle cx=%2242%22 cy=%2252%22 r=%224%22 fill=%22white%22/><circle cx=%2258%22 cy=%2252%22 r=%224%22 fill=%22white%22/><path d=%22M25 35c-5-15 10-25 25-25s30 10 25 25%22 fill=%22none%22 stroke=%22white%22 stroke-width=%224%22 stroke-linecap=%22round%22/></svg>">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
+        .logo-icon { border-radius: 6px; flex-shrink: 0; }
+        .nav-links a svg, .user-dropdown-menu a svg { flex-shrink: 0; }
+        .nav-links a, .user-dropdown-menu a { display: inline-flex; align-items: center; gap: 6px; }
         /* 整合樣式 */
         .hero { text-align: center; padding: 60px 24px; background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(168,85,247,0.1) 100%); border-radius: var(--radius); margin-bottom: 40px; }
         .hero h2 { font-size: 2.2rem; margin-bottom: 16px; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -115,11 +118,11 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
     <!-- Header -->
     <header class="site-header">
         <div class="header-inner">
-            <a href="/" class="logo">🤖 <span>AI</span>銷售員</a>
+            <a href="/" class="logo"><svg class="logo-icon" width="28" height="28" viewBox="0 0 100 100" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#a855f7"/></linearGradient></defs><rect rx="20" width="100" height="100" fill="url(#lg)"/><path d="M30 65V40a20 20 0 0140 0v25" stroke="white" stroke-width="6" stroke-linecap="round"/><circle cx="42" cy="52" r="4" fill="white"/><circle cx="58" cy="52" r="4" fill="white"/><path d="M25 35c-5-15 10-25 25-25s30 10 25 25" stroke="white" stroke-width="4" stroke-linecap="round" fill="none"/></svg><span>AI</span> 銷售員</a>
             <nav class="nav-links">
-                <a href="/" class="active">首頁</a>
-                <a href="products/list.php">產品列表</a>
-                <a href="products/add.php">上傳產品</a>
+                <a href="/" class="active"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> 首頁</a>
+                <a href="products/list.php"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg> 產品列表</a>
+                <a href="products/add.php"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> 上傳產品</a>
                 <?php if ($user && $user['role'] === 'admin'): ?>
                 <a href="admin-dashboard.php">管理後台</a>
                 <?php endif; ?>
@@ -128,19 +131,19 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
                 <?php if ($user): ?>
                 <div class="user-dropdown">
                     <div style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-                        <img src="<?= $user['avatar'] ?: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%236366f1%22/><text x=%2250%22 y=%2265%22 font-size=%2245%22 text-anchor=%22middle%22 fill=%22white%22>👤</text></svg>' ?>" class="nav-avatar" alt="">
+                        <img src="<?= htmlspecialchars($user['avatar'] ?: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><defs><linearGradient id=%22ag%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22><stop offset=%220%25%22 stop-color=%22%236366f1%22/><stop offset=%22100%25%22 stop-color=%22%23a855f7%22/></linearGradient></defs><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22url(%23ag)%22/><circle cx=%2250%22 cy=%2238%22 r=%2214%22 fill=%22white%22 opacity=%220.9%22/><ellipse cx=%2250%22 cy=%2280%22 rx=%2224%22 ry=%2218%22 fill=%22white%22 opacity=%220.9%22/></svg>') ?>" class="nav-avatar" alt="">
                         <span style="font-size:0.9rem;"><?= htmlspecialchars($user['store_name'] ?: $user['email']) ?></span>
                     </div>
                     <div class="user-dropdown-menu">
-                        <a href="products/list.php">📦 我的產品</a>
-                        <a href="products/add.php">➕ 上傳產品</a>
-                        <a href="dashboard.php">📊 數據總覽</a>
+                        <a href="products/list.php"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg> 我的產品</a>
+                        <a href="products/add.php"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 上傳產品</a>
+                        <a href="dashboard.php"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg> 數據總覽</a>
                         <?php if ($user['role'] === 'admin'): ?>
                         <div class="divider"></div>
-                        <a href="admin-dashboard.php">⚙️ 管理後台</a>
+                        <a href="admin-dashboard.php"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg> 管理後台</a>
                         <?php endif; ?>
                         <div class="divider"></div>
-                        <a href="auth/logout.php">🚪 登出</a>
+                        <a href="auth/logout.php"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> 登出</a>
                     </div>
                 </div>
                 <?php else: ?>
@@ -153,17 +156,17 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
     <!-- Hero (原 index.php 功能) -->
     <section class="hero">
         <h2>賣家只需上傳產品<br>剩下的 AI 幫你搞定</h2>
-        <p>上傳產品照片與描述，AI 自動產生銷售文案、QR Code 銷售碼，一鍵複製、下載、投放廣告。🚀</p>
+        <p>上傳產品照片與描述，AI 自動產生銷售文案、QR Code 銷售碼，一鍵複製、下載、投放廣告。</p>
         <div style="display:flex; gap:16px; justify-content:center;">
-            <a href="products/add.php" class="btn btn-primary btn-lg">🚀 開始免費使用</a>
-            <a href="products/list.php" class="btn btn-secondary btn-lg">📦 產品列表</a>
+            <a href="products/add.php" class="btn btn-primary btn-lg"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> 開始免費使用</a>
+            <a href="products/list.php" class="btn btn-secondary btn-lg"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg> 產品列表</a>
         </div>
     </section>
 
     <div class="container container-wide">
         <!-- Tech Highlight -->
         <div class="tech-highlight">
-            <h3>🔒 QR Code 掃碼付款專利技術</h3>
+            <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>QR Code 掃碼付款專利技術</h3>
             <p>每個產品自動產生專屬 QR Code，消費者掃碼即可完成付款。支援 LINE Pay、街口支付等台灣主流行動支付。<br>本平台含完整專利技術授權，適合投資者或企業收購。</p>
         </div>
 
@@ -171,55 +174,63 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
         <div class="pub-stats">
             <div class="pub-stat-card">
                 <div class="pub-stat-value"><?= number_format($totalProducts) ?></div>
-                <div class="pub-stat-label">📦 商品總數</div>
+                <div class="pub-stat-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> 商品總數</div>
             </div>
             <div class="pub-stat-card">
                 <div class="pub-stat-value"><?= number_format($totalViews) ?></div>
-                <div class="pub-stat-label">👁 產品瀏覽</div>
+                <div class="pub-stat-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> 產品瀏覽</div>
             </div>
             <div class="pub-stat-card">
                 <div class="pub-stat-value"><?= $totalOrders ?></div>
-                <div class="pub-stat-label">🛒 成功交易</div>
+                <div class="pub-stat-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg> 成功交易</div>
             </div>
             <div class="pub-stat-card">
                 <div class="pub-stat-value">NT$<?= number_format($totalRevenue) ?></div>
-                <div class="pub-stat-label">💰 累計營收</div>
+                <div class="pub-stat-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> 累計營收</div>
             </div>
         </div>
 
         <!-- Charts -->
         <div class="charts-row">
             <div class="chart-container">
-                <div class="chart-name">📈 每日交易量（近14天）</div>
+                <div class="chart-name"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> 每日交易量（近14天）</div>
                 <canvas id="ordersChart" height="180"></canvas>
             </div>
             <div class="chart-container">
-                <div class="chart-name">💰 每日營收（近14天）</div>
+                <div class="chart-name"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px;"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg> 每日營收（近14天）</div>
                 <canvas id="revenueChart" height="180"></canvas>
             </div>
         </div>
 
         <!-- Product Grid -->
-        <h2 class="section-name">🛍 熱門商品展示</h2>
+        <h2 class="section-name"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg> 熱門商品展示</h2>
         <div class="product-grid">
-            <?php foreach ($marketProducts as $p): ?>
+            <?php foreach ($marketProducts as $p): 
+                $displayName = !empty($p['name']) ? $p['name'] : ($p['title'] ?? '未命名商品');
+                $displayImage = !empty($p['image_path']) ? $p['image_path'] : ($p['image_url'] ?? '');
+                $productLink = !empty($p['product_url']) ? $p['product_url'] : 'products/detail.php?id=' . $p['id'];
+                $linkTarget = !empty($p['product_url']) ? ' target="_blank" rel="noopener"' : '';
+            ?>
             <div class="product-card">
-                <a href="products/detail.php?id=<?= $p['id'] ?>" style="text-decoration:none;color:inherit;display:block;">
+                <a href="<?= htmlspecialchars($productLink) ?>"<?= $linkTarget ?> style="text-decoration:none;color:inherit;display:block;">
                 <div class="product-image">
-                    <?php if (!empty($p['image_path'])): ?>
-                        <img src="<?= htmlspecialchars($p['image_path'] ?? '') ?>" alt="<?= htmlspecialchars($p['name'] ?? '') ?>" loading="lazy">
+                    <?php if (!empty($displayImage)): ?>
+                        <img src="<?= htmlspecialchars($displayImage) ?>" alt="<?= htmlspecialchars($displayName) ?>" loading="lazy">
                     <?php else: ?>
                         <span style="font-size:2rem;">📦</span>
                     <?php endif; ?>
                 </div>
                 <div class="product-body">
-                    <div class="product-name"><?= htmlspecialchars($p['name'] ?? '') ?></div>
+                    <div class="product-name"><?= htmlspecialchars($displayName) ?></div>
                     <div class="product-price">NT$<?= number_format($p['price']) ?></div>
+                    <?php if (!empty($p['source'])): ?>
+                    <div style="font-size:0.7rem;color:var(--text-dim);margin-top:4px;">來源: <?= htmlspecialchars(ucfirst($p['source'])) ?></div>
+                    <?php endif; ?>
                 </div>
                 </a>
                 <div class="qr-section">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?= urlencode(SITE_URL . '/api/pay.php?id=' . $p['id'] . '&amount=' . $p['price']) ?>" alt="QR Code" loading="lazy">
-                    <div class="qr-label">📱 掃碼付款 NT$<?= number_format($p['price']) ?></div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?= urlencode(!empty($p['product_url']) ? $p['product_url'] : SITE_URL . '/api/pay.php?id=' . $p['id'] . '&amount=' . $p['price']) ?>" alt="QR Code" loading="lazy">
+                    <div class="qr-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> 掃碼付款 NT$<?= number_format($p['price']) ?></div>
                 </div>
             </div>
             <?php endforeach; ?>
@@ -239,7 +250,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
         </nav>
 
         <!-- Recent Orders -->
-        <h2 class="section-name">🛒 最近成交紀錄</h2>
+        <h2 class="section-name"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg> 最近成交紀錄</h2>
         <div class="chart-container" style="margin-bottom:40px;">
             <table class="order-table">
                 <thead>

@@ -40,9 +40,17 @@ curl_setopt_array($ch, [
 
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlError = curl_error($ch);
 curl_close($ch);
 
+if ($curlError) {
+    file_put_contents('/tmp/google_oauth_debug.log', date('Y-m-d H:i:s') . " cURL error: $curlError\n", FILE_APPEND);
+    header('Location: login.php?error=curl_error');
+    exit;
+}
+
 if ($httpCode !== 200) {
+    file_put_contents('/tmp/google_oauth_debug.log', date('Y-m-d H:i:s') . " Token exchange failed: HTTP $httpCode, Response: $response\n", FILE_APPEND);
     header('Location: login.php?error=token_exchange_failed');
     exit;
 }
@@ -51,6 +59,7 @@ $data = json_decode($response, true);
 $accessToken = $data['access_token'] ?? '';
 
 if (!$accessToken) {
+    file_put_contents('/tmp/google_oauth_debug.log', date('Y-m-d H:i:s') . " No access token in response: $response\n", FILE_APPEND);
     header('Location: login.php?error=no_access_token');
     exit;
 }
@@ -73,18 +82,19 @@ $name = $googleUser['name'] ?? '';
 $avatar = $googleUser['picture'] ?? '';
 
 if (!$googleId || !$email) {
+    file_put_contents('/tmp/google_oauth_debug.log', date('Y-m-d H:i:s') . " Userinfo failed: $response\n", FILE_APPEND);
     header('Location: login.php?error=userinfo_failed');
     exit;
 }
 
 try {
     $db = getDB();
-    
+
     // Check if user exists by Google ID
     $stmt = $db->prepare("SELECT * FROM users WHERE google_id = ?");
     $stmt->execute([$googleId]);
     $user = $stmt->fetch();
-    
+
     if ($user) {
         // Existing Google user - login
         $userId = $user['id'];
@@ -93,7 +103,7 @@ try {
         $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
         $existingUser = $stmt->fetch();
-        
+
         if ($existingUser) {
             // Link Google account to existing user
             $stmt = $db->prepare("UPDATE users SET google_id = ?, avatar = COALESCE(NULLIF(?, ''), avatar) WHERE id = ?");
@@ -106,24 +116,25 @@ try {
             $userId = $db->lastInsertId();
         }
     }
-    
+
     // Create session
     $token = generateToken();
     $expires = date('Y-m-d H:i:s', time() + SESSION_LIFETIME);
-    
+
     $stmt = $db->prepare("INSERT INTO sessions (user_id, token, expires_at) VALUES (?, ?, ?)");
     $stmt->execute([$userId, $token, $expires]);
-    
-    setcookie('auth_token', $token, time() + SESSION_LIFETIME, '/', '', false, true);
-    
+
+    setcookie('auth_token', $token, time() + SESSION_LIFETIME, '/', '', true, true);
+
     // Update last login
     $db->prepare("UPDATE users SET last_login = NOW() WHERE id = ?")->execute([$userId]);
-    logActivity($userId, 'google_login', 'Google登入');
-    
+    logActivity($userId, 'google_login', 'Google login');
+
     header('Location: /');
     exit;
-    
+
 } catch (Exception $e) {
+    file_put_contents('/tmp/google_oauth_debug.log', date('Y-m-d H:i:s') . " DB Error: " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine() . "\n" . $e->getTraceAsString() . "\n", FILE_APPEND);
     header('Location: login.php?error=system_error');
     exit;
 }

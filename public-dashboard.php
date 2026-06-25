@@ -130,9 +130,9 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
         .status-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 500; }
         .badge-completed { background: rgba(34,197,94,0.15); color: #22c55e; }
         .badge-paid { background: rgba(59,130,246,0.15); color: #3b82f6; }
-        .badge-shipped { background: rgba(168,85,247,0.15); color: #a855f7; }
+        .badge-shipped { background: rgba(168,85,247,0.15); color: #db2777; }
         .badge-pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
-        .patent-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #6366f1, #a855f7); color: white; padding: 5px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 600; margin-left: 10px; }
+        .patent-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #6d28d9, #db2777); color: white; padding: 5px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 600; margin-left: 10px; }
         .tech-highlight { background: var(--bg-card); border: 2px solid var(--primary); border-radius: var(--radius); padding: 20px; text-align: center; margin-bottom: 28px; }
         .tech-highlight h3 { color: var(--primary-light); margin-bottom: 6px; font-size: 1rem; }
         .tech-highlight p { color: var(--text-muted); font-size: 0.85rem; }
@@ -355,7 +355,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
             datasets: [{
                 label: '交易筆數',
                 data: <?= json_encode(array_map('intval', $orderCounts)) ?>,
-                borderColor: '#6366f1',
+                borderColor: '#6d28d9',
                 backgroundColor: 'rgba(99, 102, 241, 0.1)',
                 fill: true, tension: 0.4, pointRadius: 4
             }]
@@ -371,7 +371,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
                 label: '營收 (NT$)',
                 data: <?= json_encode(array_map('floatval', $orderRevenues)) ?>,
                 backgroundColor: 'rgba(168, 85, 247, 0.6)',
-                borderColor: '#a855f7', borderWidth: 1, borderRadius: 6
+                borderColor: '#db2777', borderWidth: 1, borderRadius: 6
             }]
         },
         options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#1e2d4a' } }, x: { grid: { display: false } } } }

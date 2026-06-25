@@ -91,7 +91,7 @@ if ($googleClientId) {
 </head>
 <body class="auth-page">
     <div class="auth-card">
-        <a href="/" class="logo"><svg class="logo-icon" width="28" height="28" viewBox="0 0 100 100" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#a855f7"/></linearGradient></defs><rect rx="20" width="100" height="100" fill="url(#lg)"/><path d="M30 65V40a20 20 0 0140 0v25" stroke="white" stroke-width="6" stroke-linecap="round"/><circle cx="42" cy="52" r="4" fill="white"/><circle cx="58" cy="52" r="4" fill="white"/><path d="M25 35c-5-15 10-25 25-25s30 10 25 25" stroke="white" stroke-width="4" stroke-linecap="round" fill="none"/></svg><span>AI</span> 銷售員</a>
+        <a href="/" class="logo"><svg class="logo-icon" width="28" height="28" viewBox="0 0 100 100" fill="none"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6d28d9"/><stop offset="100%" stop-color="#db2777"/></linearGradient></defs><rect rx="20" width="100" height="100" fill="url(#lg)"/><path d="M30 65V40a20 20 0 0140 0v25" stroke="white" stroke-width="6" stroke-linecap="round"/><circle cx="42" cy="52" r="4" fill="white"/><circle cx="58" cy="52" r="4" fill="white"/><path d="M25 35c-5-15 10-25 25-25s30 10 25 25" stroke="white" stroke-width="4" stroke-linecap="round" fill="none"/></svg><span>AI</span> 銷售員</a>
         <h1>歡迎回來</h1>
         <p class="subtitle">登入你的帳號開始銷售</p>
         

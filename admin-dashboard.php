@@ -240,7 +240,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
         }
         .badge-completed { background: rgba(34,197,94,0.15); color: #22c55e; }
         .badge-paid { background: rgba(59,130,246,0.15); color: #3b82f6; }
-        .badge-shipped { background: rgba(168,85,247,0.15); color: #a855f7; }
+        .badge-shipped { background: rgba(168,85,247,0.15); color: #db2777; }
         .badge-pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
         .badge-cancelled { background: rgba(239,68,68,0.15); color: #ef4444; }
         .badge-refunded { background: rgba(107,114,128,0.15); color: #6b7280; }
@@ -253,7 +253,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
         }
         .admin-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #6366f1, #a855f7);
+            background: linear-gradient(135deg, #6d28d9, #db2777);
             color: white;
             padding: 3px 10px;
             border-radius: 12px;
@@ -471,11 +471,11 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
             datasets: [{
                 label: '瀏覽次數',
                 data: <?= json_encode(array_map('intval', $viewCounts)) ?>,
-                borderColor: '#6366f1',
+                borderColor: '#6d28d9',
                 backgroundColor: 'rgba(99, 102, 241, 0.1)',
                 fill: true,
                 tension: 0.4,
-                pointBackgroundColor: '#6366f1',
+                pointBackgroundColor: '#6d28d9',
                 pointRadius: 4
             }]
         },
@@ -495,7 +495,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
                 label: '營收 (NT$)',
                 data: <?= json_encode(array_map('floatval', $orderRevenues)) ?>,
                 backgroundColor: 'rgba(168, 85, 247, 0.6)',
-                borderColor: '#a855f7',
+                borderColor: '#db2777',
                 borderWidth: 1,
                 borderRadius: 6
             }]
@@ -514,7 +514,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
             labels: <?= json_encode(array_map(fn($p) => ucfirst($p['platform']), $platformData)) ?>,
             datasets: [{
                 data: <?= json_encode(array_map(fn($p) => floatval($p['total_budget']), $platformData)) ?>,
-                backgroundColor: ['#6366f1', '#a855f7', '#22d3ee', '#f59e0b', '#22c55e'],
+                backgroundColor: ['#6d28d9', '#db2777', '#22d3ee', '#f59e0b', '#22c55e'],
                 borderWidth: 0
             }]
         },
@@ -528,7 +528,7 @@ $orderRevenues = array_column($dailyOrders, 'daily_revenue');
             labels: <?= json_encode(array_map(fn($s) => ['pending'=>'待付款','paid'=>'已付款','shipped'=>'已出貨','completed'=>'已完成','cancelled'=>'已取消','refunded'=>'已退款'][$s['status']] ?? $s['status'], $orderStatusData)) ?>,
             datasets: [{
                 data: <?= json_encode(array_map(fn($s) => intval($s['count']), $orderStatusData)) ?>,
-                backgroundColor: ['#f59e0b', '#3b82f6', '#a855f7', '#22c55e', '#ef4444', '#6b7280'],
+                backgroundColor: ['#f59e0b', '#3b82f6', '#db2777', '#22c55e', '#ef4444', '#6b7280'],
                 borderWidth: 0
             }]
         },
